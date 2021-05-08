@@ -5,19 +5,32 @@
 
 using namespace Rcpp;
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _spoar_rcpp_hello_world() {
+// spoa_align_character
+String spoa_align_character(CharacterVector seq);
+RcppExport SEXP _spoar_spoa_align_character(SEXP seqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    Rcpp::traits::input_parameter< CharacterVector >::type seq(seqSEXP);
+    rcpp_result_gen = Rcpp::wrap(spoa_align_character(seq));
+    return rcpp_result_gen;
+END_RCPP
+}
+// spoa_align_xstringset
+S4 spoa_align_xstringset(S4 seq);
+RcppExport SEXP _spoar_spoa_align_xstringset(SEXP seqSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< S4 >::type seq(seqSEXP);
+    rcpp_result_gen = Rcpp::wrap(spoa_align_xstringset(seq));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_spoar_rcpp_hello_world", (DL_FUNC) &_spoar_rcpp_hello_world, 0},
+    {"_spoar_spoa_align_character", (DL_FUNC) &_spoar_spoa_align_character, 1},
+    {"_spoar_spoa_align_xstringset", (DL_FUNC) &_spoar_spoa_align_xstringset, 1},
     {NULL, NULL, 0}
 };
 
