@@ -1,0 +1,13 @@
+PKG_LIBS = -Lspoa/lib -lspoa
+PKG_CXXFLAGS = -fPIC
+LDFLAGS = -fPIC
+
+$(SHLIB): spoa/lib/libspoa.a
+
+spoa/lib/libspoa.a:
+	@(cd spoa && \
+	   cmake -DCMAKE_BUILD_TYPE=Release \
+	         -DCMAKE_CXX_FLAGS="$(PKG_CXXFLAGS) " \
+	         -DCMAKE_CXX_COMPILER_AR="$(AR)" \
+	         -DCMAKE_CXX_COMPILER_RANLIB="$(RANLIB)" && \
+	   $(MAKE) spoa)

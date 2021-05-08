@@ -28,7 +28,12 @@ RoxygenNote: 7.1.1
 Imports: 
     Biostrings,
     Rcpp
-LinkingTo: Rcpp
+LinkingTo:
+    Biostrings,
+    IRanges,
+    Rcpp,
+    S4Vectors,
+    XVector
 Suggests: 
     knitr,
     covr,
