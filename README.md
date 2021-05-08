@@ -76,7 +76,44 @@ Below is the citation output from using `citation('spoar')` in R. Please
 run this yourself to check for any updates on how to cite **spoar**.
 
 ``` r
-print(citation('spoar'), bibtex = TRUE)
+print(citation("spoar"), bibtex = TRUE)
+#> 
+#> Furneaux B, Vaser R (2021). _SPOAR: SIMD Partial Order Alignment in R_.
+#> doi: 10.18129/B9.bioc.spoar (URL:
+#> https://doi.org/10.18129/B9.bioc.spoar),
+#> https://github.com/brendanf/spoar/spoar - R package version 0.99.0,
+#> <URL: http://www.bioconductor.org/packages/spoar>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {SPOAR: SIMD Partial Order Alignment in R},
+#>     author = {Brendan Furneaux and Robert Vaser},
+#>     year = {2021},
+#>     url = {http://www.bioconductor.org/packages/spoar},
+#>     note = {https://github.com/brendanf/spoar/spoar - R package version 0.99.0},
+#>     doi = {10.18129/B9.bioc.spoar},
+#>   }
+#> 
+#> Vaser R, Sović I, Nagaranjan N, Šikić M (2017). "Fast and accurate de
+#> novo genome assembly from long uncorrected reads." _Genome Research_,
+#> *27*, 737-746. doi: 10.1101/gr.214270.116 (URL:
+#> https://doi.org/10.1101/gr.214270.116), <URL:
+#> https://doi.org/10.1101/gr.214270.116>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Article{,
+#>     title = {Fast and accurate de novo genome assembly from long uncorrected reads},
+#>     author = {Robert Vaser and Ivan Sović and Niranjan Nagaranjan and Mile Šikić},
+#>     year = {2017},
+#>     journal = {Genome Research},
+#>     volume = {27},
+#>     issue = {5},
+#>     pages = {737--746},
+#>     doi = {10.1101/gr.214270.116},
+#>     url = {https://doi.org/10.1101/gr.214270.116},
+#>   }
 ```
 
 Please note that the `spoar` was only made possible thanks to many other
