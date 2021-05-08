@@ -116,7 +116,7 @@ jobs:
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
         run: |
-          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y", paste(gsub("apt-get install -y ", "", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
+          sysreqs=$(Rscript -e 'cat("apt-get update -y && apt-get install -y cmake ", paste(gsub("apt-get install -y ", "", remotes::system_requirements("ubuntu", "20.04")), collapse = " "))')
           echo $sysreqs
           sudo -s eval "$sysreqs"
 
@@ -136,6 +136,9 @@ jobs:
 
           ## For installing usethis's dependency gert
           brew install libgit2
+
+          ## Needed to build SPOA
+          brew install cmake
 
       - name: Install Windows system dependencies
         if: runner.os == 'Windows'
