@@ -1,0 +1,12 @@
+^renv$
+^renv\.lock$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.Rprofile$
+^\.git.+$
+^README\.Rmd$
+^dev$
+^\.github$
+^\.gitmodules$
+^\.gitignore$
+^codecov\.yml$

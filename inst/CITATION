@@ -1,0 +1,35 @@
+pkgVer <- function(pkg) {
+    if (!exists("meta") || is.null(meta)) meta <- packageDescription(pkg)
+    ver <- meta$Version
+    paste0('https://github.com/brendanf/spoar/', pkg, ' - R package version ', ver)
+}
+
+c(
+    bibentry(bibtype="manual",
+        title = "SPOAR: SIMD Partial Order Alignment in R",
+        author = personList(
+            person("Brendan", "Furneaux", role = c("aut", "cre"), email = "brendan.furneaux@gmail.com"),
+            person("Robert", "Vaser", role = "aut")
+        ),
+        year = format(Sys.Date(), "%Y"),
+        url = "http://www.bioconductor.org/packages/spoar",
+        note = pkgVer('spoar'),
+        doi = '10.18129/B9.bioc.spoar'
+    ),
+    bibentry(bibtype="article",
+        title = "Fast and accurate de novo genome assembly from long uncorrected reads",
+        author = personList(
+            person("Robert", "Vaser"),
+            person("Ivan", "Sović"),
+            person("Niranjan", "Nagaranjan"),
+            person("Mile", "Šikić")
+        ),
+        year = "2017",
+        journal = "Genome Research",
+        volume = "27",
+        issue = "5",
+        pages = "737--746",
+        doi = "10.1101/gr.214270.116",
+        url = "https://doi.org/10.1101/gr.214270.116"
+    )
+)
