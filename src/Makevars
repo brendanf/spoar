@@ -9,5 +9,7 @@ spoa/lib/libspoa.a:
 	   cmake -DCMAKE_BUILD_TYPE=Release \
 	         -DCMAKE_CXX_FLAGS="$(PKG_CXXFLAGS) " \
 	         -DCMAKE_CXX_COMPILER_AR="$(AR)" \
-	         -DCMAKE_CXX_COMPILER_RANLIB="$(RANLIB)" && \
+	         -DCMAKE_CXX_COMPILER_RANLIB="$(RANLIB)" \
+	         -Dspoa_build_tests=Off \
+	         -Dspoa_build_exe=Off && \
 	   $(MAKE) spoa)
