@@ -17,7 +17,7 @@ Description: SPOA is a C++ library for fast alignment and consensus generation
     of closely related sequences. It allows local, global, and semi-global
     (overlap) alignment, using linear, affine, or convex gap penalties, and can
     also weight by quality scores. SPOAR is an R wrapper for SPOA.
-License: MIT
+License: MIT + file LICENSE
 URL: https://github.com/brendanf/spoar
 BugReports: https://support.bioconductor.org/t/spoar
 biocViews: Software
