@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Brendan Furneaux \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Brendan Furneaux \email{first.last@example.com} (\href{https://orcid.org/0000-0003-3522-7363}{ORCID})
 
 Authors:
 \itemize{
