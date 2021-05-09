@@ -1,21 +1,96 @@
-
 #include <Rcpp.h>
 // #include <Biostrings_interface.h>
 // #include <XVector_interface.h>
 #include "spoa/include/spoa/spoa.hpp"
 using namespace Rcpp;
 //
-// [[Rcpp::export]]
-String spoa_consensus_character(CharacterVector seq) {
-    auto alignment_engine = spoa::AlignmentEngine::Create(
-        spoa::AlignmentType::kNW, 3, -5, -3);
 
-    spoa::Graph graph{};
+spoa::AlignmentType get_alignment_type(std::string s) {
+    if (s == "local") {
+        return spoa::AlignmentType::kSW;
+    } else if (s == "global") {
+        return spoa::AlignmentType::kNW;
+    } else if (s == "semi.global") {
+        return spoa::AlignmentType::kOV;
+    }
+    stop("Error: invalid alignment algorithm '%s'", s);
+}
+
+void spoa_linear(
+        CharacterVector& seq,
+        spoa::AlignmentType type,
+        std::int8_t m,
+        std::int8_t n,
+        std::int8_t g,
+        spoa::Graph& graph) {
+    auto alignment_engine = spoa::AlignmentEngine::Create(type, m, n, g);
 
     for (const String& it : seq) {
         std::string s = it.get_cstring();
         auto alignment = alignment_engine->Align(s, graph);
         graph.AddAlignment(alignment, s);
+    }
+}
+
+void spoa_affine(
+        CharacterVector& seq,
+        spoa::AlignmentType type,
+        std::int8_t m,
+        std::int8_t n,
+        std::int8_t g,
+        std::int8_t e,
+        spoa::Graph& graph) {
+    auto alignment_engine = spoa::AlignmentEngine::Create(type, m, n, g, e);
+
+    for (const String& it : seq) {
+        std::string s = it.get_cstring();
+        auto alignment = alignment_engine->Align(s, graph);
+        graph.AddAlignment(alignment, s);
+    }
+}
+
+void spoa_convex(
+        CharacterVector& seq,
+        spoa::AlignmentType type,
+        std::int8_t m,
+        std::int8_t n,
+        std::int8_t g,
+        std::int8_t e,
+        std::int8_t q,
+        std::int8_t c,
+        spoa::Graph& graph) {
+    auto alignment_engine = spoa::AlignmentEngine::Create(type, m, n, g, e, q, c);
+
+    for (const String& it : seq) {
+        std::string s = it.get_cstring();
+        auto alignment = alignment_engine->Align(s, graph);
+        graph.AddAlignment(alignment, s);
+    }
+}
+
+// [[Rcpp::export]]
+String spoa_consensus_character(
+        CharacterVector seq,
+        std::string algorithm,
+        std::string gap_algorithm,
+        int match,
+        int mismatch,
+        int gap_open,
+        int gap_extend,
+        int gap_open2,
+        int gap_extend2) {
+    spoa::AlignmentType type = get_alignment_type(algorithm);
+
+    spoa::Graph graph{};
+    if (gap_algorithm == "linear") {
+        spoa_linear(seq, type, match, mismatch, gap_open, graph);
+    } else if (gap_algorithm == "affine") {
+        spoa_affine(seq, type, match, mismatch, gap_open, gap_extend, graph);
+    } else if (gap_algorithm == "convex") {
+        spoa_convex(seq, type, match, mismatch, gap_open, gap_extend, gap_open2,
+                    gap_extend2, graph);
+    } else {
+        stop("Error: invalid gap algorithm '%s%'", gap_algorithm);
     }
 
     auto consensus = graph.GenerateConsensus();
@@ -23,16 +98,28 @@ String spoa_consensus_character(CharacterVector seq) {
 }
 
 // [[Rcpp::export]]
-CharacterVector spoa_align_character(CharacterVector seq) {
-    auto alignment_engine = spoa::AlignmentEngine::Create(
-        spoa::AlignmentType::kNW, 3, -5, -3);
+CharacterVector spoa_align_character(
+        CharacterVector seq,
+        std::string algorithm,
+        std::string gap_algorithm,
+        int match,
+        int mismatch,
+        int gap_open,
+        int gap_extend,
+        int gap_open2,
+        int gap_extend2) {
+    spoa::AlignmentType type = get_alignment_type(algorithm);
 
     spoa::Graph graph{};
-
-    for (const String& it : seq) {
-        std::string s = it.get_cstring();
-        auto alignment = alignment_engine->Align(s, graph);
-        graph.AddAlignment(alignment, s);
+    if (gap_algorithm == "linear") {
+        spoa_linear(seq, type, match, mismatch, gap_open, graph);
+    } else if (gap_algorithm == "affine") {
+        spoa_affine(seq, type, match, mismatch, gap_open, gap_extend, graph);
+    } else if (gap_algorithm == "convex") {
+        spoa_convex(seq, type, match, mismatch, gap_open, gap_extend, gap_open2,
+                    gap_extend2, graph);
+    } else {
+        stop("Error: invalid gap algorithm '%s%'", gap_algorithm);
     }
 
     std::vector<std::string> msa = graph.GenerateMultipleSequenceAlignment();

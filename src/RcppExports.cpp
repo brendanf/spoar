@@ -6,31 +6,47 @@
 using namespace Rcpp;
 
 // spoa_consensus_character
-String spoa_consensus_character(CharacterVector seq);
-RcppExport SEXP _spoar_spoa_consensus_character(SEXP seqSEXP) {
+String spoa_consensus_character(CharacterVector seq, std::string algorithm, std::string gap_algorithm, int match, int mismatch, int gap_open, int gap_extend, int gap_open2, int gap_extend2);
+RcppExport SEXP _spoar_spoa_consensus_character(SEXP seqSEXP, SEXP algorithmSEXP, SEXP gap_algorithmSEXP, SEXP matchSEXP, SEXP mismatchSEXP, SEXP gap_openSEXP, SEXP gap_extendSEXP, SEXP gap_open2SEXP, SEXP gap_extend2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type seq(seqSEXP);
-    rcpp_result_gen = Rcpp::wrap(spoa_consensus_character(seq));
+    Rcpp::traits::input_parameter< std::string >::type algorithm(algorithmSEXP);
+    Rcpp::traits::input_parameter< std::string >::type gap_algorithm(gap_algorithmSEXP);
+    Rcpp::traits::input_parameter< int >::type match(matchSEXP);
+    Rcpp::traits::input_parameter< int >::type mismatch(mismatchSEXP);
+    Rcpp::traits::input_parameter< int >::type gap_open(gap_openSEXP);
+    Rcpp::traits::input_parameter< int >::type gap_extend(gap_extendSEXP);
+    Rcpp::traits::input_parameter< int >::type gap_open2(gap_open2SEXP);
+    Rcpp::traits::input_parameter< int >::type gap_extend2(gap_extend2SEXP);
+    rcpp_result_gen = Rcpp::wrap(spoa_consensus_character(seq, algorithm, gap_algorithm, match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2));
     return rcpp_result_gen;
 END_RCPP
 }
 // spoa_align_character
-CharacterVector spoa_align_character(CharacterVector seq);
-RcppExport SEXP _spoar_spoa_align_character(SEXP seqSEXP) {
+CharacterVector spoa_align_character(CharacterVector seq, std::string algorithm, std::string gap_algorithm, int match, int mismatch, int gap_open, int gap_extend, int gap_open2, int gap_extend2);
+RcppExport SEXP _spoar_spoa_align_character(SEXP seqSEXP, SEXP algorithmSEXP, SEXP gap_algorithmSEXP, SEXP matchSEXP, SEXP mismatchSEXP, SEXP gap_openSEXP, SEXP gap_extendSEXP, SEXP gap_open2SEXP, SEXP gap_extend2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type seq(seqSEXP);
-    rcpp_result_gen = Rcpp::wrap(spoa_align_character(seq));
+    Rcpp::traits::input_parameter< std::string >::type algorithm(algorithmSEXP);
+    Rcpp::traits::input_parameter< std::string >::type gap_algorithm(gap_algorithmSEXP);
+    Rcpp::traits::input_parameter< int >::type match(matchSEXP);
+    Rcpp::traits::input_parameter< int >::type mismatch(mismatchSEXP);
+    Rcpp::traits::input_parameter< int >::type gap_open(gap_openSEXP);
+    Rcpp::traits::input_parameter< int >::type gap_extend(gap_extendSEXP);
+    Rcpp::traits::input_parameter< int >::type gap_open2(gap_open2SEXP);
+    Rcpp::traits::input_parameter< int >::type gap_extend2(gap_extend2SEXP);
+    rcpp_result_gen = Rcpp::wrap(spoa_align_character(seq, algorithm, gap_algorithm, match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_spoar_spoa_consensus_character", (DL_FUNC) &_spoar_spoa_consensus_character, 1},
-    {"_spoar_spoa_align_character", (DL_FUNC) &_spoar_spoa_align_character, 1},
+    {"_spoar_spoa_consensus_character", (DL_FUNC) &_spoar_spoa_consensus_character, 9},
+    {"_spoar_spoa_align_character", (DL_FUNC) &_spoar_spoa_align_character, 9},
     {NULL, NULL, 0}
 };
 

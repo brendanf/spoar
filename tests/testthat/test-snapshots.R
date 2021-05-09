@@ -8,9 +8,23 @@ sequences <- c(
 )
 
 test_that("spoa_consensus does not regress", {
-    expect_snapshot_value(spoa_consensus(sequences), cran = TRUE)
+    expect_snapshot_value(
+        spoa_consensus(sequences, 3, -5, -3, algorithm = "global"),
+        cran = TRUE
+    )
 })
 
+sequences <- c(
+    "CATAAAAGAACGTAGGTCGCCCGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGAT",
+    "ATAAAGGCAGTCGCTCTGTAAGCTGTCGATTCACCGGAAAGATGGCGTTACCACGTAAAGTGATAATGATTAT",
+    "ATCAAAGAACGTGTAGCCTGTCCGTAATCTAGCGCATTTCACACGAGACCCGCGTAATGGG",
+    "CGTAAATAGGTAATGATTATCATTACATATCACAACTAGGGCCGTATTAATCATGATATCATCA",
+    "GTCGCTAGAGGCATCGTGAGTCGCTTCCGTACCGCAAGGATGACGAGTCACTTAAAGTGATAAT",
+    "CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
+)
 test_that("spoa_align does not regress", {
-    expect_snapshot_value(spoa_align(sequences), style = "json2", cran = TRUE)
+    expect_snapshot_value(
+        spoa_align(sequences, 3, -5, -3, algorithm = "global"),
+        style = "json2", cran = TRUE
+    )
 })

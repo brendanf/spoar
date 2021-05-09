@@ -3,8 +3,7 @@
 
 check_spoa_args <- function(algorithm, gap_algorithm) {
     # get the call for the parent function
-    mycall <- sys.call(-2)
-    print(mycall)
+    mycall <- match.call(sys.function(-2), sys.call(-2))
     mycall[1] <- call("do_check_spoa_args")
     mycall$algorithm <- algorithm
     mycall$gap_algorithm <- gap_algorithm
@@ -124,7 +123,10 @@ spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
-    spoa_align_character(seq)
+    spoa_align_character(
+        seq, algorithm, gap_algorithm, match, mismatch,
+        gap_open, gap_extend, gap_open2, gap_extend2
+    )
 }
 
 #' @rdname spoa_align
@@ -137,7 +139,10 @@ spoa_align.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
-    s <- spoa_align_character(as.character(seq))
+    s <- spoa_align_character(
+        as.character(seq), algorithm, gap_algorithm,
+        match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2
+    )
     if (methods::is(seq, "DNAStringSet")) {
         Biostrings::DNAMultipleAlignment(s)
     } else if (methods::is(seq, "RNAStringSet")) {
@@ -169,7 +174,10 @@ spoa_consensus.character <- function(seq, match = 5, mismatch = -4,
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
-    spoa_consensus_character(seq)
+    spoa_consensus_character(
+        seq, algorithm, gap_algorithm, match, mismatch,
+        gap_open, gap_extend, gap_open2, gap_extend2
+    )
 }
 
 #' @rdname spoa_align
@@ -182,7 +190,10 @@ spoa_consensus.XStringSet <- function(seq, match = 5, mismatch = -4,
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
-    s <- spoa_consensus_character(as.character(seq))
+    s <- spoa_consensus_character(
+        as.character(seq), algorithm, gap_algorithm,
+        match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2
+    )
     if (methods::is(seq, "DNAStringSet")) {
         Biostrings::DNAString(s)
     } else if (methods::is(seq, "RNAStringSet")) {
