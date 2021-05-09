@@ -101,7 +101,7 @@ spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE) {
+    both_strands = FALSE, ...) {
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
