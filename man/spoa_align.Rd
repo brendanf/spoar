@@ -5,6 +5,7 @@
 \alias{spoa_align.character}
 \alias{spoa_consensus}
 \alias{spoa_consensus.character}
+\alias{spoa_consensus.XStringSet}
 \title{Align sequences using SPOA (and optionally get the consensus)}
 \usage{
 spoa_align(
@@ -62,6 +63,20 @@ spoa_consensus(
   both_strands = FALSE,
   ...
 )
+
+\method{spoa_consensus}{XStringSet}(
+  seq,
+  match = 5,
+  mismatch = -4,
+  gap_open = -8,
+  gap_extend = -6,
+  gap_open2 = -10,
+  gap_extend2 = -4,
+  algorithm = c("local", "global", "semi.global"),
+  gap_algorithm = c("linear", "affine", "convex"),
+  both_strands = FALSE,
+  ...
+)
 }
 \arguments{
 \item{seq}{sequences to align}
@@ -85,9 +100,9 @@ in SPOA); valid only for \code{gap_algorithm = "convex"}. \emph{Default}: \code{
 \item{gap_extend2}{(non-positive \code{integer}) second gap extension penalty
 ("\code{c}" in SPOA); valid only for \code{gap_algorithm = "convex"}. \emph{Default}: \code{-4L}}
 
-\item{algorithm}{(\code{character} string) alignment mode; one of \code{"local"} (Smith-Watterman)
-, \code{"global"} (Needleman-Wunsch), or \code{"semi.global"} (Overlap). \emph{Default}:
-\code{"local"}}
+\item{algorithm}{(\code{character} string) alignment mode; one of \code{"local"}
+(Smith-Watterman), \code{"global"} (Needleman-Wunsch), or \code{"semi.global"}
+(Overlap). \emph{Default}: \code{"local"}}
 
 \item{gap_algorithm}{(\code{character} string) gap scoring algorithm; one of
 \code{"linear"}, \code{"affine"}, or \code{"convex"}. \emph{Default}: \code{"linear"}}
