@@ -3,6 +3,7 @@
 \name{spoa_align}
 \alias{spoa_align}
 \alias{spoa_align.character}
+\alias{spoa_align.XStringSet}
 \alias{spoa_consensus}
 \alias{spoa_consensus.character}
 \alias{spoa_consensus.XStringSet}
@@ -23,6 +24,20 @@ spoa_align(
 )
 
 \method{spoa_align}{character}(
+  seq,
+  match = 5,
+  mismatch = -4,
+  gap_open = -8,
+  gap_extend = -6,
+  gap_open2 = -10,
+  gap_extend2 = -4,
+  algorithm = c("local", "global", "semi.global"),
+  gap_algorithm = c("linear", "affine", "convex"),
+  both_strands = FALSE,
+  ...
+)
+
+\method{spoa_align}{XStringSet}(
   seq,
   match = 5,
   mismatch = -4,
@@ -79,7 +94,8 @@ spoa_consensus(
 )
 }
 \arguments{
-\item{seq}{sequences to align}
+\item{seq}{(\code{character} vector or \code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}}) sequences
+to align}
 
 \item{match}{(non-negative \code{integer}) score for a match ("\code{m}" in SPOA).
 \emph{Default}: \code{5L}}
@@ -113,7 +129,14 @@ sequences during alignment. \emph{Default}: \code{FALSE}}
 \item{...}{additional parameters passed to methods}
 }
 \value{
-an object of the same type as \code{seq}, giving the aligned sequences.
+For \code{spoa_consensus()}, either a \code{character} string or the
+appropriate \code{\link[Biostrings:XString-class]{Biostrings::XString}}, depending on the class of \code{seq}.
+
+For \code{spoa_align()}, either a
+\code{character} vector or a \code{\link[Biostrings:MultipleAlignment-class]{Biostrings::MultipleAlignment}}, depending on
+the class of \code{seq}. If \code{seq} is a \code{BStringSet} (i.e., an \code{XStringSet} which
+is not specifically DNA, RNA, or AA) then the result is also a \code{BStringSet},
+since there is no corresponding "\code{BMultipleAlignment}" class.
 }
 \description{
 Align sequences using SPOA (and optionally get the consensus)
@@ -129,14 +152,13 @@ The gap penalty formulas are:
 }
 \examples{
 sequences <- c(
-"CATAAAAGAACGTAGGTCGCCCGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGAT",
-"ATAAAGGCAGTCGCTCTGTAAGCTGTCGATTCACCGGAAAGATGGCGTTACCACGTAAAGTGATAATGATTAT",
-"ATCAAAGAACGTGTAGCCTGTCCGTAATCTAGCGCATTTCACACGAGACCCGCGTAATGGG",
-"CGTAAATAGGTAATGATTATCATTACATATCACAACTAGGGCCGTATTAATCATGATATCATCA",
-"GTCGCTAGAGGCATCGTGAGTCGCTTCCGTACCGCAAGGATGACGAGTCACTTAAAGTGATAAT",
-"CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
+    "CATAAAAGAACGTAGGTCGCCCGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGAT",
+    "ATAAAGGCAGTCGCTCTGTAAGCTGTCGATTCACCGGAAAGATGGCGTTACCACGTAAAGTGATAATGATTAT",
+    "ATCAAAGAACGTGTAGCCTGTCCGTAATCTAGCGCATTTCACACGAGACCCGCGTAATGGG",
+    "CGTAAATAGGTAATGATTATCATTACATATCACAACTAGGGCCGTATTAATCATGATATCATCA",
+    "GTCGCTAGAGGCATCGTGAGTCGCTTCCGTACCGCAAGGATGACGAGTCACTTAAAGTGATAAT",
+    "CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
 )
 spoa_align(sequences)
 spoa_consensus(sequences)
-
 }

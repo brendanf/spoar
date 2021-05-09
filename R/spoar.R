@@ -53,7 +53,8 @@ do_check_spoa_args <- function(match = 5, mismatch = -4, gap_open = -8,
 
 #' Align sequences using SPOA (and optionally get the consensus)
 #'
-#' @param seq sequences to align
+#' @param seq (`character` vector or [`Biostrings::XStringSet-class`]) sequences
+#' to align
 #' @param match (non-negative `integer`) score for a match ("`m`" in SPOA).
 #' *Default*: `5L`
 #' @param mismatch (non-positive `integer`) score for a mismatch ("`n`" in SPOA)
@@ -76,7 +77,14 @@ do_check_spoa_args <- function(match = 5, mismatch = -4, gap_open = -8,
 #' sequences during alignment. *Default*: `FALSE`
 #' @param ... additional parameters passed to methods
 #'
-#' @return an object of the same type as `seq`, giving the aligned sequences.
+#' @return For `spoa_consensus()`, either a `character` string or the
+#' appropriate [`Biostrings::XString-class`], depending on the class of `seq`.
+#'
+#' For `spoa_align()`, either a
+#' `character` vector or a [`Biostrings::MultipleAlignment-class`], depending on
+#' the class of `seq`. If `seq` is a `BStringSet` (i.e., an `XStringSet` which
+#' is not specifically DNA, RNA, or AA) then the result is also a `BStringSet`,
+#' since there is no corresponding "`BMultipleAlignment`" class.
 #'
 #' @details The gap penalty formulas are:
 #'
@@ -88,19 +96,18 @@ do_check_spoa_args <- function(match = 5, mismatch = -4, gap_open = -8,
 #'
 #' @examples
 #' sequences <- c(
-#' "CATAAAAGAACGTAGGTCGCCCGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGAT",
-#' "ATAAAGGCAGTCGCTCTGTAAGCTGTCGATTCACCGGAAAGATGGCGTTACCACGTAAAGTGATAATGATTAT",
-#' "ATCAAAGAACGTGTAGCCTGTCCGTAATCTAGCGCATTTCACACGAGACCCGCGTAATGGG",
-#' "CGTAAATAGGTAATGATTATCATTACATATCACAACTAGGGCCGTATTAATCATGATATCATCA",
-#' "GTCGCTAGAGGCATCGTGAGTCGCTTCCGTACCGCAAGGATGACGAGTCACTTAAAGTGATAAT",
-#' "CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
+#'     "CATAAAAGAACGTAGGTCGCCCGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGAT",
+#'     "ATAAAGGCAGTCGCTCTGTAAGCTGTCGATTCACCGGAAAGATGGCGTTACCACGTAAAGTGATAATGATTAT",
+#'     "ATCAAAGAACGTGTAGCCTGTCCGTAATCTAGCGCATTTCACACGAGACCCGCGTAATGGG",
+#'     "CGTAAATAGGTAATGATTATCATTACATATCACAACTAGGGCCGTATTAATCATGATATCATCA",
+#'     "GTCGCTAGAGGCATCGTGAGTCGCTTCCGTACCGCAAGGATGACGAGTCACTTAAAGTGATAAT",
+#'     "CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
 #' )
 #' spoa_align(sequences)
 #' spoa_consensus(sequences)
-#'
 #' @export
-spoa_align <- function(seq, match = 5, mismatch = -4, gap_open = -8, gap_extend = -6,
-    gap_open2 = -10, gap_extend2 = -4,
+spoa_align <- function(seq, match = 5, mismatch = -4, gap_open = -8,
+    gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
     both_strands = FALSE, ...) {
@@ -109,8 +116,8 @@ spoa_align <- function(seq, match = 5, mismatch = -4, gap_open = -8, gap_extend 
 
 #' @rdname spoa_align
 #' @export
-spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8, gap_extend = -6,
-    gap_open2 = -10, gap_extend2 = -4,
+spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
+    gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
     both_strands = FALSE, ...) {
@@ -118,6 +125,28 @@ spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8, g
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
     spoa_align_character(seq)
+}
+
+#' @rdname spoa_align
+#' @export
+spoa_align.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = -8,
+    gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
+    algorithm = c("local", "global", "semi.global"),
+    gap_algorithm = c("linear", "affine", "convex"),
+    both_strands = FALSE, ...) {
+    algorithm <- match.arg(algorithm)
+    gap_algorithm <- match.arg(gap_algorithm)
+    check_spoa_args(algorithm, gap_algorithm)
+    s <- spoa_align_character(as.character(seq))
+    if (methods::is(seq, "DNAStringSet")) {
+        Biostrings::DNAMultipleAlignment(s)
+    } else if (methods::is(seq, "RNAStringSet")) {
+        Biostrings::RNAMultipleAlignment(s)
+    } else if (methods::is(seq, "AAStringSet")) {
+        Biostrings::AAMultipleAlignment(s)
+    } else {
+        Biostrings::BStringSet(s)
+    }
 }
 
 #' @rdname spoa_align
@@ -132,8 +161,8 @@ spoa_consensus <- function(seq, match = 5, mismatch = -4, gap_open = -8,
 
 #' @rdname spoa_align
 #' @export
-spoa_consensus.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
-    gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
+spoa_consensus.character <- function(seq, match = 5, mismatch = -4,
+    gap_open = -8, gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
     both_strands = FALSE, ...) {
@@ -145,8 +174,8 @@ spoa_consensus.character <- function(seq, match = 5, mismatch = -4, gap_open = -
 
 #' @rdname spoa_align
 #' @export
-spoa_consensus.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = -8,
-    gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
+spoa_consensus.XStringSet <- function(seq, match = 5, mismatch = -4,
+    gap_open = -8, gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
     both_strands = FALSE, ...) {
@@ -155,12 +184,12 @@ spoa_consensus.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = 
     check_spoa_args(algorithm, gap_algorithm)
     s <- spoa_consensus_character(as.character(seq))
     if (methods::is(seq, "DNAStringSet")) {
-        Biostrings::DNAStringSet(s)
+        Biostrings::DNAString(s)
     } else if (methods::is(seq, "RNAStringSet")) {
-        Biostrings::RNAStringSet(s)
+        Biostrings::RNAString(s)
     } else if (methods::is(seq, "AAStringSet")) {
-        Biostrings::AAStringSet(s)
+        Biostrings::AAString(s)
     } else {
-        Biostrings::BStringSet(s)
+        Biostrings::BString(s)
     }
 }

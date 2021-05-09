@@ -32,12 +32,7 @@ Imports:
     Biostrings,
     methods,
     Rcpp
-LinkingTo:
-    Biostrings,
-    IRanges,
-    Rcpp,
-    S4Vectors,
-    XVector
+LinkingTo: Rcpp
 Suggests: 
     knitr,
     covr,

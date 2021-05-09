@@ -9,7 +9,3 @@ spoa_align_character <- function(seq) {
     .Call(`_spoar_spoa_align_character`, seq)
 }
 
-spoa_consensus_xstringset <- function(seq) {
-    .Call(`_spoar_spoa_consensus_xstringset`, seq)
-}
-

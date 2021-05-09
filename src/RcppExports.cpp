@@ -27,22 +27,10 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// spoa_consensus_xstringset
-S4 spoa_consensus_xstringset(S4 seq);
-RcppExport SEXP _spoar_spoa_consensus_xstringset(SEXP seqSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< S4 >::type seq(seqSEXP);
-    rcpp_result_gen = Rcpp::wrap(spoa_consensus_xstringset(seq));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_spoar_spoa_consensus_character", (DL_FUNC) &_spoar_spoa_consensus_character, 1},
     {"_spoar_spoa_align_character", (DL_FUNC) &_spoar_spoa_align_character, 1},
-    {"_spoar_spoa_consensus_xstringset", (DL_FUNC) &_spoar_spoa_consensus_xstringset, 1},
     {NULL, NULL, 0}
 };
 
