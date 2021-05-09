@@ -210,6 +210,13 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
+        # doing this earlier causes remodes::install_local() to failure
+        # not doing it causes R CMD check to fail
+      - name: Checkout Repository (including submodules)
+        uses: actions/checkout@v2
+        with:
+            submodules: recursive
+
       - name: Run CMD check
         env:
           _R_CHECK_CRAN_INCOMING_: false
