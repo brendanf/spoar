@@ -51,7 +51,7 @@ do_check_spoa_args <- function(match = 5, mismatch = -4, gap_open = -8,
     )
 }
 
-#' Align sequences using SPOA
+#' Align sequences using SPOA (and optionally get the consensus)
 #'
 #' @param seq sequences to align
 #' @param match (non-negative `integer`) score for a match ("`m`" in SPOA).
@@ -95,7 +95,7 @@ spoa_align <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     UseMethod("spoa_align")
 }
 
-
+#' @rdname spoa_align
 #' @export
 spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
@@ -106,4 +106,27 @@ spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
     spoa_align_character(seq)
+}
+
+#' @rdname spoa_align
+#' @export
+spoa_consensus <- function(seq, match = 5, mismatch = -4, gap_open = -8,
+    gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
+    algorithm = c("local", "global", "semi.global"),
+    gap_algorithm = c("linear", "affine", "convex"),
+    both_strands = FALSE, ...) {
+    UseMethod("spoa_consensus")
+}
+
+#' @rdname spoa_align
+#' @export
+spoa_consensus.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
+    gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
+    algorithm = c("local", "global", "semi.global"),
+    gap_algorithm = c("linear", "affine", "convex"),
+    both_strands = FALSE, ...) {
+    algorithm <- match.arg(algorithm)
+    gap_algorithm <- match.arg(gap_algorithm)
+    check_spoa_args(algorithm, gap_algorithm)
+    spoa_consensus_character(seq)
 }
