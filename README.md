@@ -14,7 +14,12 @@ status](http://www.bioconductor.org/shields/build/release/bioc/spoar.svg)](https
 coverage](https://codecov.io/gh/brendanf/spoar/branch/main/graph/badge.svg)](https://codecov.io/gh/brendanf/spoar?branch=main)
 <!-- badges: end -->
 
-The goal of `spoar` is to …
+[SPOA](https://github.com/rvaser/spoa) is a C++ library for fast
+alignment and consensus generation of closely related sequences,
+especially used for long, error-containing reads from third generation
+sequencers. It allows local, global, and semi-global (overlap)
+alignment, using linear, affine, or convex gap penalties, and can also
+weight by quality scores. SPOAR is an R wrapper for SPOA.
 
 ## Installation instructions
 
@@ -39,36 +44,28 @@ BiocManager::install("brendanf/spoar")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Here is the first basic example from the SPOR README:
 
 ``` r
 library("spoar")
-## basic example code
+
+sequences <- c(
+    "CATAAAAGAACGTAGGTCGCCCGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGAT",
+    "ATAAAGGCAGTCGCTCTGTAAGCTGTCGATTCACCGGAAAGATGGCGTTACCACGTAAAGTGATAATGATTAT",
+    "ATCAAAGAACGTGTAGCCTGTCCGTAATCTAGCGCATTTCACACGAGACCCGCGTAATGGG",
+    "CGTAAATAGGTAATGATTATCATTACATATCACAACTAGGGCCGTATTAATCATGATATCATCA",
+    "GTCGCTAGAGGCATCGTGAGTCGCTTCCGTACCGCAAGGATGACGAGTCACTTAAAGTGATAAT",
+    "CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
+)
+
+spoar:::spoa_align_character(sequences)
+#> [1] "CATA-AA-AGA---A-CGT-AGGTCGCCCGTCCGTAACCT-GTCGG-A---TCAC--CGG-AA--A--G-G--A-CC--CGTAAAGT-GATAATG------A--T----"
+#> [2] "-AT--AA-AG-------GC-A-GTCG--C-TCTGTAAGCT-GTC-G-A-T-TCAC--CGGAAA-GATGGCGTTA-CC-ACGTAAAGT-GATAATGA-T-T-A--T----"
+#> [3] "-AT-CAA-AGA---A-CGT---GTAGCCTGTCCGTAATCTAG-C-GCATT-TCAC-AC-G--A-GA---C-----CCG-CGT-AA-T-G-----G---------G----"
+#> [4] "CGTA-AATAG-------GT-A-AT-G--A-T-TATCAT-TA--C---A-TATCACAAC-T--A-G---G-G-----C--CGT-AT-T-AATCATGA-TATCA--T-CA-"
+#> [5] "-GT-CGCTAGAGGCATCGTGA-GTCG-CT-TCCGT-ACC--G-C---A-----A----GG--ATGA---CG--AGTC-ACTTAAAGT-GATAAT---------------"
+#> [6] "C---C------------GT-A-A-----C--CT-TCATC--G---G-A---TCAC--CGG-AA--A--G-G--A-CC--CGTAAA-TAGA-CCTGATTATCATCTACAT"
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub\!
 
 ## Citation
 
@@ -128,7 +125,7 @@ contributing to this project, you agree to abide by its terms.
 
 ## Development tools
 
-  - Continuous code testing is possible thanks to [GitHub
+-   Continuous code testing is possible thanks to [GitHub
     actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)
     through *[usethis](https://CRAN.R-project.org/package=usethis)*,
     *[remotes](https://CRAN.R-project.org/package=remotes)*, and
@@ -136,15 +133,15 @@ contributing to this project, you agree to abide by its terms.
     customized to use [Bioconductor’s docker
     containers](https://www.bioconductor.org/help/docker/) and
     *[BiocCheck](https://bioconductor.org/packages/3.12/BiocCheck)*.
-  - Code coverage assessment is possible thanks to
+-   Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
-  - The [documentation website](http://brendanf.github.io/spoar) is
+-   The [documentation website](http://brendanf.github.io/spoar) is
     automatically updated thanks to
     *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
-  - The code is styled automatically thanks to
+-   The code is styled automatically thanks to
     *[styler](https://CRAN.R-project.org/package=styler)*.
-  - The documentation is formatted thanks to
+-   The documentation is formatted thanks to
     *[devtools](https://CRAN.R-project.org/package=devtools)* and
     *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
 
