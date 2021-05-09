@@ -62,7 +62,9 @@ sequences <- c(
     "CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
 )
 
-spoar:::spoa_align_character(sequences)
+spoa_align(sequences)
+
+spoa_consensus(sequences)
 ```
 
 ## Citation
