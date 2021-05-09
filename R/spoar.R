@@ -86,26 +86,34 @@ do_check_spoa_args <- function(match = 5, mismatch = -4, gap_open = -8,
 #'
 #' `convex`: `min(g + (i - i) * e, q + (i - 1) \cdot c)`
 #'
+#' @examples
+#' sequences <- c(
+#' "CATAAAAGAACGTAGGTCGCCCGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGAT",
+#' "ATAAAGGCAGTCGCTCTGTAAGCTGTCGATTCACCGGAAAGATGGCGTTACCACGTAAAGTGATAATGATTAT",
+#' "ATCAAAGAACGTGTAGCCTGTCCGTAATCTAGCGCATTTCACACGAGACCCGCGTAATGGG",
+#' "CGTAAATAGGTAATGATTATCATTACATATCACAACTAGGGCCGTATTAATCATGATATCATCA",
+#' "GTCGCTAGAGGCATCGTGAGTCGCTTCCGTACCGCAAGGATGACGAGTCACTTAAAGTGATAAT",
+#' "CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
+#' )
+#' spoa_align(sequences)
+#' spoa_consensus(sequences)
+#'
 #' @export
-spoa_align <- function(
-    seq, match = 5, mismatch = -4, gap_open = -8, gap_extend = -6,
+spoa_align <- function(seq, match = 5, mismatch = -4, gap_open = -8, gap_extend = -6,
     gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE, ...
-) {
+    both_strands = FALSE, ...) {
     UseMethod("spoa_align")
 }
 
 #' @rdname spoa_align
 #' @export
-spoa_align.character <- function(
-    seq, match = 5, mismatch = -4, gap_open = -8, gap_extend = -6,
+spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8, gap_extend = -6,
     gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE, ...
-) {
+    both_strands = FALSE, ...) {
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
@@ -114,25 +122,21 @@ spoa_align.character <- function(
 
 #' @rdname spoa_align
 #' @export
-spoa_consensus <- function(
-    seq, match = 5, mismatch = -4, gap_open = -8,
+spoa_consensus <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE, ...
-) {
+    both_strands = FALSE, ...) {
     UseMethod("spoa_consensus")
 }
 
 #' @rdname spoa_align
 #' @export
-spoa_consensus.character <- function(
-    seq, match = 5, mismatch = -4, gap_open = -8,
+spoa_consensus.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE, ...
-) {
+    both_strands = FALSE, ...) {
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
@@ -141,19 +145,22 @@ spoa_consensus.character <- function(
 
 #' @rdname spoa_align
 #' @export
-spoa_consensus.XStringSet <- function(
-    seq, match = 5, mismatch = -4, gap_open = -8,
+spoa_consensus.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE, ...
-) {
+    both_strands = FALSE, ...) {
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
     s <- spoa_consensus_character(as.character(seq))
-    if (methods::is(seq, "DNAStringSet")) Biostrings::DNAStringSet(s)
-    else if (methods::is(seq, "RNAStringSet")) Biostrings::RNAStringSet(s)
-    else if (methods::is(seq, "AAStringSet")) Biostrings::AAStringSet(s)
-    else Biostrings::BStringSet(s)
+    if (methods::is(seq, "DNAStringSet")) {
+        Biostrings::DNAStringSet(s)
+    } else if (methods::is(seq, "RNAStringSet")) {
+        Biostrings::RNAStringSet(s)
+    } else if (methods::is(seq, "AAStringSet")) {
+        Biostrings::AAStringSet(s)
+    } else {
+        Biostrings::BStringSet(s)
+    }
 }
