@@ -14,9 +14,25 @@ check_spoa_args <- function(algorithm, gap_algorithm) {
     eval(mycall)
 }
 
+is_nonpositive_int <- function(x) {
+    rlang::is_scalar_integerish(x) && x <= 0
+}
+
+assertthat::on_failure(is_nonpositive_int) <- function(call, env) {
+    paste0(deparse(call$x), " is not a single non-positive integer.")
+}
+
+is_nonnegative_int <- function(x) {
+    rlang::is_scalar_integerish(x) && x >= 0
+}
+
+assertthat::on_failure(is_nonnegative_int) <- function(call, env) {
+    paste0(deparse(call$x), " is not a single non-negative integer.")
+}
+
 do_check_spoa_args <- function(match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
-    gap_algorithm, call, ...) {
+    gap_algorithm, both_strands = FALSE, call, ...) {
     switch(gap_algorithm,
         linear = {
             extra_args <- c(
@@ -50,6 +66,15 @@ do_check_spoa_args <- function(match = 5, mismatch = -4, gap_open = -8,
             "'.",
             call. = FALSE
         )
+    )
+    assertthat::assert_that(
+        is_nonnegative_int(match),
+        is_nonpositive_int(mismatch),
+        is_nonpositive_int(gap_open),
+        is_nonpositive_int(gap_extend),
+        is_nonpositive_int(gap_open2),
+        is_nonpositive_int(gap_extend2),
+        assertthat::is.flag(both_strands)
     )
 }
 
