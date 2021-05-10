@@ -1,10 +1,10 @@
 ---
 title: "Introduction to spoar"
 author: 
-  - name: Your name
+  - name: Brendan Furneaux
     affiliation:
-    - Your institution
-    email: your.email@somewhere.com
+    - Department of Ecology and Genetics, Uppsala University
+    email: brendan.furneaux@gmail.com
 output: 
   BiocStyle::html_document:
     self_contained: yes
@@ -65,12 +65,6 @@ BiocManager::install("spoar")
 ## Check that you have a valid Bioconductor installation
 BiocManager::valid()
 ```
-
-## Required knowledge
-
-`r Biocpkg("spoar")` is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data (EDIT!). That is, packages like `r Biocpkg("SummarizedExperiment")` (EDIT!).
-
-If you are asking yourself the question "Where do I start using Bioconductor?" you might be interested in [this blog post](http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU).
 
 ## Asking for help
 
