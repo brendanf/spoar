@@ -15,7 +15,7 @@ check_spoa_args <- function(algorithm, gap_algorithm) {
 }
 
 is_nonpositive_int <- function(x) {
-    rlang::is_scalar_integerish(x) && x <= 0
+    !is.null(x) && length(x) == 1L && is.numeric(x) && x == round(x) && x <= 0
 }
 
 assertthat::on_failure(is_nonpositive_int) <- function(call, env) {
@@ -23,7 +23,7 @@ assertthat::on_failure(is_nonpositive_int) <- function(call, env) {
 }
 
 is_nonnegative_int <- function(x) {
-    rlang::is_scalar_integerish(x) && x >= 0
+    !is.null(x) && length(x) == 1L && is.numeric(x) && x == round(x) && x >= 0
 }
 
 assertthat::on_failure(is_nonnegative_int) <- function(call, env) {
