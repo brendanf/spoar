@@ -137,9 +137,6 @@ jobs:
           ## For installing usethis's dependency gert
           brew install libgit2
 
-          ## Needed to build SPOA
-          brew install cmake
-
       - name: Install Windows system dependencies
         if: runner.os == 'Windows'
         run: |
