@@ -17,7 +17,7 @@ spoa::AlignmentType get_alignment_type(std::string s) {
 }
 
 void spoa_linear(
-        CharacterVector& seq,
+        std::vector<std::string>& seq,
         spoa::AlignmentType type,
         std::int8_t m,
         std::int8_t n,
@@ -25,15 +25,14 @@ void spoa_linear(
         spoa::Graph& graph) {
     auto alignment_engine = spoa::AlignmentEngine::Create(type, m, n, g);
 
-    for (const String& it : seq) {
-        std::string s = it.get_cstring();
+    for (const std::string& s : seq) {
         auto alignment = alignment_engine->Align(s, graph);
         graph.AddAlignment(alignment, s);
     }
 }
 
 void spoa_affine(
-        CharacterVector& seq,
+        std::vector<std::string>& seq,
         spoa::AlignmentType type,
         std::int8_t m,
         std::int8_t n,
@@ -42,15 +41,14 @@ void spoa_affine(
         spoa::Graph& graph) {
     auto alignment_engine = spoa::AlignmentEngine::Create(type, m, n, g, e);
 
-    for (const String& it : seq) {
-        std::string s = it.get_cstring();
+    for (const std::string& s : seq) {
         auto alignment = alignment_engine->Align(s, graph);
         graph.AddAlignment(alignment, s);
     }
 }
 
 void spoa_convex(
-        CharacterVector& seq,
+        std::vector<std::string>& seq,
         spoa::AlignmentType type,
         std::int8_t m,
         std::int8_t n,
@@ -61,8 +59,7 @@ void spoa_convex(
         spoa::Graph& graph) {
     auto alignment_engine = spoa::AlignmentEngine::Create(type, m, n, g, e, q, c);
 
-    for (const String& it : seq) {
-        std::string s = it.get_cstring();
+    for (const std::string& s : seq) {
         auto alignment = alignment_engine->Align(s, graph);
         graph.AddAlignment(alignment, s);
     }
@@ -70,7 +67,7 @@ void spoa_convex(
 
 // [[Rcpp::export]]
 String spoa_consensus_character(
-        CharacterVector seq,
+        std::vector<std::string> seq,
         std::string algorithm,
         std::string gap_algorithm,
         int match,
@@ -98,8 +95,8 @@ String spoa_consensus_character(
 }
 
 // [[Rcpp::export]]
-CharacterVector spoa_align_character(
-        CharacterVector seq,
+std::vector<std::string> spoa_align_character(
+        std::vector<std::string> seq,
         std::string algorithm,
         std::string gap_algorithm,
         int match,
@@ -123,14 +120,7 @@ CharacterVector spoa_align_character(
     }
 
     std::vector<std::string> msa = graph.GenerateMultipleSequenceAlignment();
-    CharacterVector out = CharacterVector(seq.length());
-
-    for (int i = 0; i < msa.size(); i++) {
-        out[i] = msa[i];
-    }
-
-    out.names() = seq.names();
-    return out;
+    return msa;
 }
 
 // //[[Rcpp::export]]

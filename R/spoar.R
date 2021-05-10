@@ -1,8 +1,11 @@
 # Brendan Furneaux
 # May 2021
 
+# check that the arguments of the calling spoa_XXX function are appropriate
+# for the given algorithm and gap_algorithm
 check_spoa_args <- function(algorithm, gap_algorithm) {
     # get the call for the parent function
+    # -2 is to skip "UseMethod"
     mycall <- match.call(sys.function(-2), sys.call(-2))
     mycall[1] <- call("do_check_spoa_args")
     mycall$algorithm <- algorithm
@@ -123,10 +126,14 @@ spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
-    spoa_align_character(
-        seq, algorithm, gap_algorithm, match, mismatch,
+
+    msa <- rep(NA_character_, length(seq))
+    names(msa) <- names(seq)
+    msa[!is.na(seq)] <- spoa_align_character(
+        seq[!is.na(seq)], algorithm, gap_algorithm, match, mismatch,
         gap_open, gap_extend, gap_open2, gap_extend2
     )
+    msa
 }
 
 #' @rdname spoa_align
@@ -143,6 +150,7 @@ spoa_align.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = -8,
         as.character(seq), algorithm, gap_algorithm,
         match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2
     )
+    names(s) <- names(seq)
     if (methods::is(seq, "DNAStringSet")) {
         Biostrings::DNAMultipleAlignment(s)
     } else if (methods::is(seq, "RNAStringSet")) {
