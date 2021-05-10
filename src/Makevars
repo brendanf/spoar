@@ -7,13 +7,7 @@ lib/libspoa.a: spoa
 	  cd spoa && \
 	  mkdir -p build && \
 	  cd build && \
-	  cmake -DCMAKE_BUILD_TYPE=Release \
-	        -DCMAKE_CXX_FLAGS="$(ALL_CXXFLAGS) " \
-	        -DCMAKE_CXX_COMPILER_AR="$(AR)" \
-	        -DCMAKE_CXX_COMPILER_RANLIB="$(RANLIB)" \
-	        -Dspoa_build_tests=Off \
-	        -Dspoa_build_exe=Off \
-	        .. && \
+	  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$(ALL_CXXFLAGS) " -DCMAKE_CXX_COMPILER_AR="$(AR)" -DCMAKE_CXX_COMPILER_RANLIB="$(RANLIB)" -Dspoa_build_tests=Off -Dspoa_build_exe=Off .. && \
 	  $(MAKE) spoa && \
 	  mv -f lib/libspoa.a ../../lib/ && \
 	  cd .. && \
