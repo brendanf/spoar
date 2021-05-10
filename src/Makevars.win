@@ -1,0 +1,19 @@
+PKG_LIBS = -Llib -lspoa
+
+$(SHLIB): lib/libspoa.a
+
+lib/libspoa.a: spoa
+	mkdir -p lib && \
+	cmake -DCMAKE_BUILD_TYPE=Release \
+	      -DCMAKE_CXX_COMPILER="$(word 1,$(subst ",,$(CXX))).exe" \
+	      -DCMAKE_CXX_FLAGS="$(wordlist 2,$(words $(CXX)),$(CXX)) $(ALL_CXXFLAGS) " \
+	      -DCMAKE_CXX_COMPILER_AR="$(subst ",,$(AR)).exe" \
+	      -DCMAKE_CXX_COMPILER_RANLIB="$(subst ",,$(RANLIB)).exe" \
+	      -Dspoa_build_tests=Off \
+	      -Dspoa_build_exe=Off \
+	      -G 'Unix Makefiles' \
+	      -S spoa \
+	      -B spoa/build && \
+	cmake --build spoa/build && \
+	mv -f spoa/build/lib/libspoa.a lib/ && \
+	rm -rf spoa/build
