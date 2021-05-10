@@ -5,7 +5,7 @@ $(SHLIB): lib/libspoa.a
 lib/libspoa.a: spoa
 	@(mkdir -p lib && \
 	  cmake -DCMAKE_BUILD_TYPE=Release \
-	        -DCMAKE_CXX_COMPILER=$(word 1,$(CXX))\
+	        -DCMAKE_CXX_COMPILER="$(word 1,$(CXX))" \
 	        -DCMAKE_CXX_FLAGS="$(wordlist 2,$(words $(CXX)),$(CXX)) $(ALL_CXXFLAGS) " \
 	        -DCMAKE_CXX_COMPILER_AR="$(AR)" \
 	        -DCMAKE_CXX_COMPILER_RANLIB="$(RANLIB)" \
