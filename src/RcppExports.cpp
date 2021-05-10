@@ -6,12 +6,12 @@
 using namespace Rcpp;
 
 // spoa_consensus_character
-String spoa_consensus_character(CharacterVector seq, std::string algorithm, std::string gap_algorithm, int match, int mismatch, int gap_open, int gap_extend, int gap_open2, int gap_extend2);
+String spoa_consensus_character(std::vector<std::string> seq, std::string algorithm, std::string gap_algorithm, int match, int mismatch, int gap_open, int gap_extend, int gap_open2, int gap_extend2);
 RcppExport SEXP _spoar_spoa_consensus_character(SEXP seqSEXP, SEXP algorithmSEXP, SEXP gap_algorithmSEXP, SEXP matchSEXP, SEXP mismatchSEXP, SEXP gap_openSEXP, SEXP gap_extendSEXP, SEXP gap_open2SEXP, SEXP gap_extend2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type seq(seqSEXP);
+    Rcpp::traits::input_parameter< std::vector<std::string> >::type seq(seqSEXP);
     Rcpp::traits::input_parameter< std::string >::type algorithm(algorithmSEXP);
     Rcpp::traits::input_parameter< std::string >::type gap_algorithm(gap_algorithmSEXP);
     Rcpp::traits::input_parameter< int >::type match(matchSEXP);
@@ -25,12 +25,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // spoa_align_character
-CharacterVector spoa_align_character(CharacterVector seq, std::string algorithm, std::string gap_algorithm, int match, int mismatch, int gap_open, int gap_extend, int gap_open2, int gap_extend2);
+std::vector<std::string> spoa_align_character(std::vector<std::string> seq, std::string algorithm, std::string gap_algorithm, int match, int mismatch, int gap_open, int gap_extend, int gap_open2, int gap_extend2);
 RcppExport SEXP _spoar_spoa_align_character(SEXP seqSEXP, SEXP algorithmSEXP, SEXP gap_algorithmSEXP, SEXP matchSEXP, SEXP mismatchSEXP, SEXP gap_openSEXP, SEXP gap_extendSEXP, SEXP gap_open2SEXP, SEXP gap_extend2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type seq(seqSEXP);
+    Rcpp::traits::input_parameter< std::vector<std::string> >::type seq(seqSEXP);
     Rcpp::traits::input_parameter< std::string >::type algorithm(algorithmSEXP);
     Rcpp::traits::input_parameter< std::string >::type gap_algorithm(gap_algorithmSEXP);
     Rcpp::traits::input_parameter< int >::type match(matchSEXP);

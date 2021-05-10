@@ -116,7 +116,7 @@ spoa_align <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     UseMethod("spoa_align")
 }
 
-#' @rdname spoa_align
+
 #' @export
 spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
@@ -136,7 +136,6 @@ spoa_align.character <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     msa
 }
 
-#' @rdname spoa_align
 #' @export
 spoa_align.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
@@ -162,7 +161,6 @@ spoa_align.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     }
 }
 
-#' @rdname spoa_align
 #' @export
 spoa_consensus <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
@@ -172,7 +170,6 @@ spoa_consensus <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     UseMethod("spoa_consensus")
 }
 
-#' @rdname spoa_align
 #' @export
 spoa_consensus.character <- function(seq, match = 5, mismatch = -4,
     gap_open = -8, gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
@@ -183,12 +180,11 @@ spoa_consensus.character <- function(seq, match = 5, mismatch = -4,
     gap_algorithm <- match.arg(gap_algorithm)
     check_spoa_args(algorithm, gap_algorithm)
     spoa_consensus_character(
-        seq, algorithm, gap_algorithm, match, mismatch,
+        seq[!is.na(seq)], algorithm, gap_algorithm, match, mismatch,
         gap_open, gap_extend, gap_open2, gap_extend2
     )
 }
 
-#' @rdname spoa_align
 #' @export
 spoa_consensus.XStringSet <- function(seq, match = 5, mismatch = -4,
     gap_open = -8, gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
