@@ -2,9 +2,24 @@
 % Please edit documentation in R/spoar.R
 \name{spoa_align}
 \alias{spoa_align}
+\alias{spoa_consensus}
 \title{Align sequences using SPOA (and optionally get the consensus)}
 \usage{
 spoa_align(
+  seq,
+  match = 5,
+  mismatch = -4,
+  gap_open = -8,
+  gap_extend = -6,
+  gap_open2 = -10,
+  gap_extend2 = -4,
+  algorithm = c("local", "global", "semi.global"),
+  gap_algorithm = c("linear", "affine", "convex"),
+  both_strands = FALSE,
+  ...
+)
+
+spoa_consensus(
   seq,
   match = 5,
   mismatch = -4,

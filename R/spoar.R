@@ -161,6 +161,7 @@ spoa_align.XStringSet <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     }
 }
 
+#' @rdname spoa_align
 #' @export
 spoa_consensus <- function(seq, match = 5, mismatch = -4, gap_open = -8,
     gap_extend = -6, gap_open2 = -10, gap_extend2 = -4,
