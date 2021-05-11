@@ -10,3 +10,4 @@
 ^\.gitmodules$
 ^\.gitignore$
 ^codecov\.yml$
+^src/spoa/\..*$
