@@ -14,14 +14,16 @@
 ## Windows: shift + control + A
 styler::style_pkg(transformers = biocthis::bioc_style())
 styler::style_dir(usethis::proj_path("dev"),
-                  transformers = biocthis::bioc_style())
+    transformers = biocthis::bioc_style()
+)
 styler::style_dir(
     usethis::proj_path("vignettes"),
     transformers = biocthis::bioc_style(),
     filetype = "Rmd"
 )
 styler::style_file(usethis::proj_path("README.Rmd"),
-                   transformers = biocthis::bioc_style())
+    transformers = biocthis::bioc_style()
+)
 
 ## Re-make the documentation files
 devtools::document()
