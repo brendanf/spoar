@@ -24,7 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Robert Vaser
+  \item Robert Vaser (author of SPOA c++ library)
 }
 
 }

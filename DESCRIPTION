@@ -11,7 +11,8 @@ Authors@R:
                comment = c(ORCID = "0000-0003-3522-7363")),
         person(given = "Robert",
                family = "Vaser",
-               role = "aut")
+               role = "aut",
+               comment = "author of SPOA c++ library")
     )
 Description: SPOA is a C++ library for fast alignment and consensus generation
     of closely related sequences. It allows local, global, and semi-global
