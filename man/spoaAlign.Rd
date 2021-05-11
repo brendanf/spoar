@@ -15,7 +15,6 @@ spoaAlign(
   gap_extend2 = -4L,
   algorithm = c("local", "global", "semi.global"),
   gap_algorithm = c("linear", "affine", "convex"),
-  both_strands = FALSE,
   ...
 )
 
@@ -29,7 +28,6 @@ spoaConsensus(
   gap_extend2 = -4L,
   algorithm = c("local", "global", "semi.global"),
   gap_algorithm = c("linear", "affine", "convex"),
-  both_strands = FALSE,
   ...
 )
 }
@@ -62,9 +60,6 @@ in SPOA); valid only for \code{gap_algorithm="convex"}. \emph{Default}: \code{-1
 
 \item{gap_algorithm}{(\code{character} string) gap scoring algorithm; one of
 \code{"linear"}, \code{"affine"}, or \code{"convex"}. \emph{Default}: \code{"linear"}}
-
-\item{both_strands}{(\code{logical}) if \code{TRUE}, try to reverse complement
-sequences during alignment. \emph{Default}: \code{FALSE}}
 
 \item{...}{additional parameters passed to methods}
 }

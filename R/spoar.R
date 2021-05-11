@@ -21,7 +21,6 @@ doCheckSpoaArgs <- function(match = 5L,
     gap_open2 = -10L,
     gap_extend2 = -4L,
     gap_algorithm,
-    both_strands = FALSE,
     call,
     ...) {
     switch(gap_algorithm,
@@ -64,8 +63,7 @@ doCheckSpoaArgs <- function(match = 5L,
         isNonpositiveInt(gap_open),
         isNonpositiveInt(gap_extend),
         isNonpositiveInt(gap_open2),
-        isNonpositiveInt(gap_extend2),
-        assertthat::is.flag(both_strands)
+        isNonpositiveInt(gap_extend2)
     )
 }
 
@@ -91,8 +89,6 @@ doCheckSpoaArgs <- function(match = 5L,
 #' (Overlap). *Default*: `"local"`
 #' @param gap_algorithm (`character` string) gap scoring algorithm; one of
 #' `"linear"`, `"affine"`, or `"convex"`. *Default*: `"linear"`
-#' @param both_strands (`logical`) if `TRUE`, try to reverse complement
-#' sequences during alignment. *Default*: `FALSE`
 #' @param ... additional parameters passed to methods
 #'
 #' @return For `spoaConsensus()`, either a `character` string or the
@@ -132,7 +128,6 @@ spoaAlign <- function(seq, match = 5L,
     gap_extend2 = -4L,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE,
     ...) {
     UseMethod("spoaAlign")
 }
@@ -148,7 +143,6 @@ spoaAlign.character <- function(seq,
     gap_extend2 = -4L,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE,
     ...) {
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
@@ -173,7 +167,6 @@ spoaAlign.XStringSet <- function(seq,
     gap_extend2 = -4L,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE,
     ...) {
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
@@ -197,7 +190,6 @@ spoaConsensus <- function(seq,
     gap_extend2 = -4L,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE,
     ...) {
     UseMethod("spoaConsensus")
 }
@@ -212,7 +204,6 @@ spoaConsensus.character <- function(seq,
     gap_extend2 = -4L,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE,
     ...) {
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
@@ -233,7 +224,6 @@ spoaConsensus.XStringSet <- function(seq,
     gap_extend2 = -4L,
     algorithm = c("local", "global", "semi.global"),
     gap_algorithm = c("linear", "affine", "convex"),
-    both_strands = FALSE,
     ...) {
     algorithm <- match.arg(algorithm)
     gap_algorithm <- match.arg(gap_algorithm)
