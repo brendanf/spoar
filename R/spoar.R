@@ -14,20 +14,6 @@ checkSpoaArgs <- function(algorithm, gap_algorithm) {
     eval(mycall)
 }
 
-isNonpositiveInt <- function(x) {
-    !is.null(x) && length(x) == 1L && is.numeric(x) && x == round(x) && x <= 0
-}
-assertthat::on_failure(isNonpositiveInt) <- function(call, env) {
-    paste0(deparse(call$x), " is not a single non-positive integer.")
-}
-
-isNonnegativeInt <- function(x) {
-    !is.null(x) && length(x) == 1L && is.numeric(x) && x == round(x) && x >= 0
-}
-assertthat::on_failure(isNonnegativeInt) <- function(call, env) {
-    paste0(deparse(call$x), " is not a single non-negative integer.")
-}
-
 doCheckSpoaArgs <- function(match = 5L,
     mismatch = -4L,
     gap_open = -8L,
@@ -197,15 +183,7 @@ spoaAlign.XStringSet <- function(seq,
         match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2
     )
     names(s) <- names(seq)
-    if (methods::is(seq, "DNAStringSet")) {
-        Biostrings::DNAMultipleAlignment(s)
-    } else if (methods::is(seq, "RNAStringSet")) {
-        Biostrings::RNAMultipleAlignment(s)
-    } else if (methods::is(seq, "AAStringSet")) {
-        Biostrings::AAMultipleAlignment(s)
-    } else {
-        Biostrings::BStringSet(s)
-    }
+    matchXMultipleAlignment(s, seq)
 }
 
 #' @rdname spoaAlign
@@ -264,13 +242,5 @@ spoaConsensus.XStringSet <- function(seq,
         as.character(seq), algorithm, gap_algorithm,
         match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2
     )
-    if (methods::is(seq, "DNAStringSet")) {
-        Biostrings::DNAString(s)
-    } else if (methods::is(seq, "RNAStringSet")) {
-        Biostrings::RNAString(s)
-    } else if (methods::is(seq, "AAStringSet")) {
-        Biostrings::AAString(s)
-    } else {
-        Biostrings::BString(s)
-    }
+    matchXString(s, seq)
 }
