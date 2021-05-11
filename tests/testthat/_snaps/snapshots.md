@@ -1,4 +1,4 @@
-# spoa_consensus does not regress
+# spoaConsensus does not regress
 
     "CATAAAAGAACGTAGTCGCCTGTCCGTAATCTGTCGATTCACCGGAAGAGGACCCGTAAAGTGATAATGATATCATACAT"
 
@@ -34,7 +34,7 @@
 
     "CATAAAGGCAACGTGTAGGTCGCCCTGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGATTATCATCTACAT"
 
-# spoa_align does not regress
+# spoaAlign does not regress
 
     {
       "type": "character",

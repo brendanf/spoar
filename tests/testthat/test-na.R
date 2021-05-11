@@ -8,15 +8,15 @@ sequences <- c(
     G = NA_character_
 )
 
-test_that("spoa_align handles NA", {
-    msa <- spoa_align(sequences)
+test_that("spoaAlign handles NA", {
+    msa <- spoaAlign(sequences)
     expect_equal(names(sequences), names(msa))
     expect_equal(is.na(sequences), is.na(msa))
 })
 
-test_that("spoa_consensus handles NA", {
+test_that("spoaConsensus handles NA", {
     expect_equal(
-        spoa_consensus(sequences),
-        spoa_consensus(sequences[!is.na(sequences)])
+        spoaConsensus(sequences),
+        spoaConsensus(sequences[!is.na(sequences)])
     )
 })
