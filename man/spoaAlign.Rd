@@ -7,12 +7,12 @@
 \usage{
 spoaAlign(
   seq,
-  match = 5L,
-  mismatch = -4L,
-  gap_open = -8L,
-  gap_extend = -6L,
-  gap_open2 = -10L,
-  gap_extend2 = -4L,
+  m = 5L,
+  n = -4L,
+  g = -8L,
+  e = -6L,
+  q = -10L,
+  c = -4L,
   algorithm = c("local", "global", "semi.global"),
   gap_algorithm = c("linear", "affine", "convex"),
   ...
@@ -20,12 +20,12 @@ spoaAlign(
 
 spoaConsensus(
   seq,
-  match = 5L,
-  mismatch = -4L,
-  gap_open = -8L,
-  gap_extend = -6L,
-  gap_open2 = -10L,
-  gap_extend2 = -4L,
+  m = 5L,
+  n = -4L,
+  g = -8L,
+  e = -6L,
+  q = -10L,
+  c = -4L,
   algorithm = c("local", "global", "semi.global"),
   gap_algorithm = c("linear", "affine", "convex"),
   ...
@@ -35,24 +35,24 @@ spoaConsensus(
 \item{seq}{(\code{character} vector or \code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}}) sequences
 to align}
 
-\item{match}{(non-negative \code{integer}) score for a match ("\code{m}" in SPOA).
+\item{m}{(non-negative \code{integer}) score for a match.
 \emph{Default}: \code{5L}}
 
-\item{mismatch}{(non-positive \code{integer}) score for a mismatch ("\code{n}" in SPOA)
+\item{n}{(non-positive \code{integer}) score for a mismatch.
 \emph{Default}: \code{-4L}}
 
-\item{gap_open}{(non-positive \code{integer}) gap opening penalty ("\code{g}" in SPOA).
+\item{g}{(non-positive \code{integer}) gap opening penalty.
 \emph{Default}: \code{-8L}}
 
-\item{gap_extend}{(non-positive \code{integer}) gap extension penalty ("\code{e}" in
-SPOA); valid only for \code{gap_algorithm="affine"} or \code{"convex"}.
+\item{e}{(non-positive \code{integer}) gap extension penalty; valid only for
+\code{gap_algorithm="affine"} or \code{"convex"}.
 \emph{Default}: \code{-6L}}
 
-\item{gap_open2}{(non-positive \code{integer}) second gap opening penalty ("\code{q}"
-in SPOA); valid only for \code{gap_algorithm="convex"}. \emph{Default}: \code{-10L}}
+\item{q}{(non-positive \code{integer}) second gap opening penalty; valid only for
+\code{gap_algorithm="convex"}. \emph{Default}: \code{-10L}}
 
-\item{gap_extend2}{(non-positive \code{integer}) second gap extension penalty
-("\code{c}" in SPOA); valid only for \code{gap_algorithm="convex"}. \emph{Default}: \code{-4L}}
+\item{c}{(non-positive \code{integer}) second gap extension penalty; valid only
+for \code{gap_algorithm="convex"}. \emph{Default}: \code{-4L}}
 
 \item{algorithm}{(\code{character} string) alignment mode; one of \code{"local"}
 (Smith-Watterman), \code{"global"} (Needleman-Wunsch), or \code{"semi.global"}
