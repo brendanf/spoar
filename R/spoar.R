@@ -137,6 +137,23 @@ spoaAlign.XStringSet <- function(seq,
     matchXMultipleAlignment(s, seq)
 }
 
+#' @export
+spoaAlign.ShortRead <- function(seq,
+    m = 5L,
+    n = -4L,
+    g = -8L,
+    e = g,
+    q = g,
+    c = e,
+    algorithm = c("local", "global", "semi.global"),
+    w = 1L,
+    ...) {
+    requireShortRead()
+    seq2 <- ShortRead::sread(seq)
+    names(seq2) <- as.character(ShortRead::id(seq))
+    spoaAlign.XStringSet(seq2, m, n, g, e, q, c, algorithm, w)
+}
+
 #' @rdname spoaAlign
 #' @export
 spoaConsensus <- function(seq,
@@ -183,4 +200,21 @@ spoaConsensus.XStringSet <- function(seq,
     s <- spoaConsensus.character(as.character(seq), m, n, g, e, q, c, algorithm,
         w)
     matchXString(s, seq)
+}
+
+#' @export
+spoaConsensus.ShortRead <- function(seq,
+    m = 5L,
+    n = -4L,
+    g = -8L,
+    e = g,
+    q = g,
+    c = e,
+    algorithm = c("local", "global", "semi.global"),
+    w = 1L,
+    ...) {
+    requireShortRead()
+    seq2 <- ShortRead::sread(seq)
+    names(seq2) <- as.character(ShortRead::id(seq))
+    spoaConsensus.XStringSet(seq2, m, n, g, e, q, c, algorithm, w)
 }

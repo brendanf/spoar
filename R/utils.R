@@ -40,6 +40,12 @@ requireBiostrings <- function() {
     }
 }
 
+requireShortRead <- function() {
+    if (!requireNamespace("ShortRead", quietly = TRUE)) {
+        stop("Operating on ShortRead objects requires the 'ShortRead' package.")
+    }
+}
+
 ## convert a character vector into an XString of type matching xss
 matchXString <- function(x, xss) {
     requireBiostrings()
