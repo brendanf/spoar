@@ -133,11 +133,7 @@ spoaAlign.XStringSet <- function(seq,
     algorithm = c("local", "global", "semi.global"),
     w = 1,
     ...) {
-    algorithm <- match.arg(algorithm)
-    checkSpoaArgs(seq, m, n, g, e, q, c, w)
-    if (length(w) == 1L) w <- rep(w, length(seq))
-    s <- spoa_align(as.character(seq), algorithm, m, n, g, e, q, c, w)
-    names(s) <- names(seq)
+    s <- spoaAlign.character(as.character(seq), m, n, g, e, q, c, algorithm, w)
     matchXMultipleAlignment(s, seq)
 }
 
@@ -184,9 +180,7 @@ spoaConsensus.XStringSet <- function(seq,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
-    algorithm <- match.arg(algorithm)
-    checkSpoaArgs(seq, m, n, g, e, q, c, w)
-    if (length(w) == 1L) w <- rep(w, length(seq))
-    s <- spoa_consensus(as.character(seq), algorithm, m, n, g, e, q, c, w)
+    s <- spoaConsensus.character(as.character(seq), m, n, g, e, q, c, algorithm,
+        w)
     matchXString(s, seq)
 }
