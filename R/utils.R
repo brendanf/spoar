@@ -34,9 +34,15 @@ assertthat::on_failure(isConformable) <- function(call, env) {
     )
 }
 
+requireBiostrings <- function() {
+    if (!requireNamespace("Biostrings", quietly = TRUE)) {
+        stop("Operating on XStringSet objects requires the 'Biostrings' package.")
+    }
+}
 
 ## convert a character vector into an XString of type matching xss
 matchXString <- function(x, xss) {
+    requireBiostrings()
     if (methods::is(xss, "DNAStringSet")) {
         Biostrings::DNAString(x)
     } else if (methods::is(xss, "RNAStringSet")) {
@@ -49,6 +55,7 @@ matchXString <- function(x, xss) {
 }
 
 matchXMultipleAlignment <- function(x, xss) {
+    requireBiostrings()
     if (methods::is(xss, "DNAStringSet")) {
         Biostrings::DNAMultipleAlignment(x)
     } else if (methods::is(xss, "RNAStringSet")) {
