@@ -16,7 +16,6 @@ spoa::AlignmentType get_alignment_type(std::string s) {
 
 std::unique_ptr<spoa::AlignmentEngine> get_alignment_engine(
         std::string type,
-        std::string subtype,
         std::int8_t m,
         std::int8_t n,
         std::int8_t g,
@@ -25,57 +24,48 @@ std::unique_ptr<spoa::AlignmentEngine> get_alignment_engine(
         std::int8_t c
         ) {
     spoa::AlignmentType aligntype = get_alignment_type(type);
-    if (subtype == "linear") {
-        return spoa::AlignmentEngine::Create(aligntype, m, n, g);
-    } else if (subtype == "affine") {
-        return spoa::AlignmentEngine::Create(aligntype, m, n, g, e);
-    } else if (subtype == "convex") {
-        return spoa::AlignmentEngine::Create(aligntype, m, n, g, e, q, c);
-    }
-    stop("Error: invalid gap algorithm '%s'", subtype);
+    return spoa::AlignmentEngine::Create(aligntype, m, n, g, e, q, c);
 }
 
 // [[Rcpp::export]]
-String spoa_consensus_character(
+String spoa_consensus(
         std::vector<std::string> seq,
         std::string algorithm,
-        std::string gap_algorithm,
-        int match,
-        int mismatch,
-        int gap_open,
-        int gap_extend,
-        int gap_open2,
-        int gap_extend2) {
-    auto alignment_engine = get_alignment_engine(
-        algorithm, gap_algorithm, match, mismatch, gap_open, gap_extend, gap_open2,
-        gap_extend2);
+        int m,
+        int n,
+        int g,
+        int e,
+        int q,
+        int c,
+        std::vector<std::uint32_t> w
+    ) {
+    auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
     spoa::Graph graph{};
-    for (const std::string& s : seq) {
-        auto alignment = alignment_engine->Align(s, graph);
-        graph.AddAlignment(alignment, s);
+    for (unsigned i = 0; i < seq.size(); i++) {
+        auto alignment = alignment_engine->Align(seq[i], graph);
+        graph.AddAlignment(alignment, seq[i], w[i]);
     }
     auto consensus = graph.GenerateConsensus();
     return consensus;
 }
 
 // [[Rcpp::export]]
-std::vector<std::string> spoa_align_character(
+std::vector<std::string> spoa_align(
         std::vector<std::string> seq,
         std::string algorithm,
-        std::string gap_algorithm,
-        int match,
-        int mismatch,
-        int gap_open,
-        int gap_extend,
-        int gap_open2,
-        int gap_extend2) {
-    auto alignment_engine = get_alignment_engine(
-        algorithm, gap_algorithm, match, mismatch, gap_open, gap_extend, gap_open2,
-        gap_extend2);
+        int m,
+        int n,
+        int g,
+        int e,
+        int q,
+        int c,
+        std::vector<std::uint32_t> w
+    ) {
+    auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
     spoa::Graph graph{};
-    for (const std::string& s : seq) {
-        auto alignment = alignment_engine->Align(s, graph);
-        graph.AddAlignment(alignment, s);
+    for (unsigned i = 0; i < seq.size(); i++) {
+        auto alignment = alignment_engine->Align(seq[i], graph);
+        graph.AddAlignment(alignment, seq[i], w[i]);
     }
 
     std::vector<std::string> msa = graph.GenerateMultipleSequenceAlignment();

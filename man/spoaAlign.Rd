@@ -10,11 +10,11 @@ spoaAlign(
   m = 5L,
   n = -4L,
   g = -8L,
-  e = -6L,
-  q = -10L,
-  c = -4L,
+  e = g,
+  q = g,
+  c = e,
   algorithm = c("local", "global", "semi.global"),
-  gap_algorithm = c("linear", "affine", "convex"),
+  w = 1,
   ...
 )
 
@@ -23,11 +23,11 @@ spoaConsensus(
   m = 5L,
   n = -4L,
   g = -8L,
-  e = -6L,
-  q = -10L,
-  c = -4L,
+  e = g,
+  q = g,
+  c = e,
   algorithm = c("local", "global", "semi.global"),
-  gap_algorithm = c("linear", "affine", "convex"),
+  w = 1L,
   ...
 )
 }
@@ -35,31 +35,26 @@ spoaConsensus(
 \item{seq}{(\code{character} vector or \code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}}) sequences
 to align}
 
-\item{m}{(non-negative \code{integer}) score for a match.
-\emph{Default}: \code{5L}}
+\item{m}{(non-negative \code{integer}) score for a match. \emph{Default}: \code{5L}}
 
-\item{n}{(non-positive \code{integer}) score for a mismatch.
-\emph{Default}: \code{-4L}}
+\item{n}{(non-positive \code{integer}) score for a mismatch. \emph{Default}: \code{-4L}}
 
-\item{g}{(non-positive \code{integer}) gap opening penalty.
-\emph{Default}: \code{-8L}}
+\item{g}{(non-positive \code{integer}) gap opening penalty. \emph{Default}: \code{-8L}}
 
-\item{e}{(non-positive \code{integer}) gap extension penalty; valid only for
-\code{gap_algorithm="affine"} or \code{"convex"}.
-\emph{Default}: \code{-6L}}
+\item{e}{(non-positive \code{integer}) gap extension penalty. \emph{Default}: same
+value as \code{g}}
 
-\item{q}{(non-positive \code{integer}) second gap opening penalty; valid only for
-\code{gap_algorithm="convex"}. \emph{Default}: \code{-10L}}
+\item{q}{(non-positive \code{integer}) second gap opening penalty.
+\emph{Default}: same value as \code{g}}
 
-\item{c}{(non-positive \code{integer}) second gap extension penalty; valid only
-for \code{gap_algorithm="convex"}. \emph{Default}: \code{-4L}}
+\item{c}{(non-positive \code{integer}) second gap extension penalty.
+\emph{Default}: same value as \code{e}}
 
 \item{algorithm}{(\code{character} string) alignment mode; one of \code{"local"}
 (Smith-Watterman), \code{"global"} (Needleman-Wunsch), or \code{"semi.global"}
 (Overlap). \emph{Default}: \code{"local"}}
 
-\item{gap_algorithm}{(\code{character} string) gap scoring algorithm; one of
-\code{"linear"}, \code{"affine"}, or \code{"convex"}. \emph{Default}: \code{"linear"}}
+\item{w}{(\code{integer} vector) weights for the sequences. \emph{Default}: \code{1L}}
 
 \item{...}{additional parameters passed to methods}
 }
@@ -77,13 +72,29 @@ since there is no corresponding "\code{BMultipleAlignment}" class.
 Align sequences using SPOA (and optionally get the consensus)
 }
 \details{
-The gap penalty formulas are:
+\subsection{Gap penalties}{
 
-\code{linear}: \code{g * i}
+The general (convex) gap penalty formula is:
 
-\code{affine}: \code{g + (i - 1) * e}
+\code{min(g + (i - i) * e, q + (i - 1) * c)}
 
-\code{convex}: \verb{min(g + (i - i) * e, q + (i - 1) \\cdot c)}
+For \code{q == g} and \code{c == e} (as is the case unless \code{q} or \code{c} is explicitly
+set), this simplifies to the affine gap penalty:
+
+\code{g + (i - 1) * e}
+
+If, additionally, \code{e == g} (the default), then this is the linear gap
+penalty:
+
+\code{g * i}
+}
+
+\subsection{Weighting}{
+
+Assigning a weight \emph{w} to a sequence is equivalent to including that sequence
+\emph{w} times; this is primarily useful for dereplicated sequences, where all
+sequences are unique, and the weight represents their multiplicity.
+}
 }
 \examples{
 sequences <- c(

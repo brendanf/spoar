@@ -1,69 +1,21 @@
 ## Brendan Furneaux
 ## May 2021
 
-## check that the arguments of the calling spoa_XXX function are appropriate
-## for the given algorithm and gap_algorithm
-checkSpoaArgs <- function(algorithm, gap_algorithm) {
+## validate the arguments of the calling spoaXXX function
+checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
     # get the call for the parent function
     # -2 is to skip "UseMethod"
-    mycall <- match.call(sys.function(-2), sys.call(-2))
-    mycall[1] <- call("doCheckSpoaArgs")
-    mycall$algorithm <- algorithm
-    mycall$gap_algorithm <- gap_algorithm
-    mycall$call <- sys.call(-2)
-    eval(mycall)
-}
-
-doCheckSpoaArgs <- function(m = 5L,
-    n = -4L,
-    g = -8L,
-    e = -6L,
-    q = -10L,
-    c = -4L,
-    gap_algorithm,
-    call,
-    ...) {
-    switch(gap_algorithm,
-        linear = {
-            extra_args <- c(
-                if (!missing(e)) "e",
-                if (!missing(q)) "q",
-                if (!missing(c)) "c"
-            )
-            if (length(extra_args)) {
-                stop("Error in ", call, ":\nArguments ",
-                    paste(shQuote(extra_args), collapse = ", "),
-                    "are invalid for gap algorithm 'linear'.",
-                    call. = FALSE
-                )
-            }
-        },
-        affine = {
-            extra_args <- c(
-                if (!missing(q)) "q",
-                if (!missing(c)) "c"
-            )
-            if (length(extra_args)) {
-                stop("Error in ", call, ":\nArguments ",
-                    paste(shQuote(extra_args), collapse = ", "),
-                    "are invalid for gap algorithm 'affine'.",
-                    call. = FALSE
-                )
-            }
-        },
-        convex = NULL,
-        stop("Error in ", call, ":\nInvalid gap algorithm '", gap_algorithm,
-            "'.",
-            call. = FALSE
-        )
-    )
+    #  <- match.call(sys.function(-2), sys.call(-2))
+    # args <- as.list(mycall)[-1]
     assertthat::assert_that(
-        isNonnegativeInt(m),
-        isNonpositiveInt(n),
-        isNonpositiveInt(g),
-        isNonpositiveInt(e),
-        isNonpositiveInt(q),
-        isNonpositiveInt(c)
+        isNonnegativeScalarInt(m),
+        isNonpositiveScalarInt(n),
+        isNonpositiveScalarInt(g),
+        isNonpositiveScalarInt(e),
+        isNonpositiveScalarInt(q),
+        isNonpositiveScalarInt(c),
+        isPositiveInt(w),
+        isConformable(w, seq)
     )
 }
 
@@ -71,24 +23,19 @@ doCheckSpoaArgs <- function(m = 5L,
 #'
 #' @param seq (`character` vector or [`Biostrings::XStringSet-class`]) sequences
 #' to align
-#' @param m (non-negative `integer`) score for a match.
-#' *Default*: `5L`
-#' @param n (non-positive `integer`) score for a mismatch.
-#' *Default*: `-4L`
-#' @param g (non-positive `integer`) gap opening penalty.
-#' *Default*: `-8L`
-#' @param e (non-positive `integer`) gap extension penalty; valid only for
-#' `gap_algorithm="affine"` or `"convex"`.
-#' *Default*: `-6L`
-#' @param q (non-positive `integer`) second gap opening penalty; valid only for
-#' `gap_algorithm="convex"`. *Default*: `-10L`
-#' @param c (non-positive `integer`) second gap extension penalty; valid only
-#' for `gap_algorithm="convex"`. *Default*: `-4L`
+#' @param m (non-negative `integer`) score for a match. *Default*: `5L`
+#' @param n (non-positive `integer`) score for a mismatch. *Default*: `-4L`
+#' @param g (non-positive `integer`) gap opening penalty. *Default*: `-8L`
+#' @param e (non-positive `integer`) gap extension penalty. *Default*: same
+#' value as `g`
+#' @param q (non-positive `integer`) second gap opening penalty.
+#' *Default*: same value as `g`
+#' @param c (non-positive `integer`) second gap extension penalty.
+#' *Default*: same value as `e`
 #' @param algorithm (`character` string) alignment mode; one of `"local"`
 #' (Smith-Watterman), `"global"` (Needleman-Wunsch), or `"semi.global"`
 #' (Overlap). *Default*: `"local"`
-#' @param gap_algorithm (`character` string) gap scoring algorithm; one of
-#' `"linear"`, `"affine"`, or `"convex"`. *Default*: `"linear"`
+#' @param w (`integer` vector) weights for the sequences. *Default*: `1L`
 #' @param ... additional parameters passed to methods
 #'
 #' @return For `spoaConsensus()`, either a `character` string or the
@@ -100,13 +47,29 @@ doCheckSpoaArgs <- function(m = 5L,
 #' is not specifically DNA, RNA, or AA) then the result is also a `BStringSet`,
 #' since there is no corresponding "`BMultipleAlignment`" class.
 #'
-#' @details The gap penalty formulas are:
+#' @details
 #'
-#' `linear`: `g * i`
+#' ## Gap penalties
 #'
-#' `affine`: `g + (i - 1) * e`
+#' The general (convex) gap penalty formula is:
 #'
-#' `convex`: `min(g + (i - i) * e, q + (i - 1) \cdot c)`
+#' `min(g + (i - i) * e, q + (i - 1) * c)`
+#'
+#' For `q == g` and `c == e` (as is the case unless `q` or `c` is explicitly
+#' set), this simplifies to the affine gap penalty:
+#'
+#' `g + (i - 1) * e`
+#'
+#' If, additionally, `e == g` (the default), then this is the linear gap
+#' penalty:
+#'
+#' `g * i`
+#'
+#' ## Weighting
+#'
+#' Assigning a weight *w* to a sequence is equivalent to including that sequence
+#' *w* times; this is primarily useful for dereplicated sequences, where all
+#' sequences are unique, and the weight represents their multiplicity.
 #'
 #' @examples
 #' sequences <- c(
@@ -124,11 +87,11 @@ spoaAlign <- function(seq,
     m = 5L,
     n = -4L,
     g = -8L,
-    e = -6L,
-    q = -10L,
-    c = -4L,
+    e = g,
+    q = g,
+    c = e,
     algorithm = c("local", "global", "semi.global"),
-    gap_algorithm = c("linear", "affine", "convex"),
+    w = 1,
     ...) {
     UseMethod("spoaAlign")
 }
@@ -139,21 +102,22 @@ spoaAlign.character <- function(seq,
     m = 5L,
     n = -4L,
     g = -8L,
-    e = -6L,
-    q = -10L,
-    c = -4L,
+    e = g,
+    q = g,
+    c = e,
     algorithm = c("local", "global", "semi.global"),
-    gap_algorithm = c("linear", "affine", "convex"),
+    w = 1,
     ...) {
     algorithm <- match.arg(algorithm)
-    gap_algorithm <- match.arg(gap_algorithm)
-    checkSpoaArgs(algorithm, gap_algorithm)
+    checkSpoaArgs(seq, m, n, g, e, q, c, w)
+    if (length(w) == 1L) w <- rep(w, length(seq))
+    s <- spoa_align(seq, algorithm, m, n, g, e, q, c, w)
 
     msa <- rep(NA_character_, length(seq))
     names(msa) <- names(seq)
-    msa[!is.na(seq)] <- spoa_align_character(
+    msa[!is.na(seq)] <- spoa_align(
         seq[!is.na(seq)], algorithm,
-        gap_algorithm, m, n, g, e, q, c
+        m, n, g, e, q, c, w
     )
     msa
 }
@@ -163,19 +127,16 @@ spoaAlign.XStringSet <- function(seq,
     m = 5L,
     n = -4L,
     g = -8L,
-    e = -6L,
-    q = -10L,
-    c = -4L,
+    e = g,
+    q = g,
+    c = e,
     algorithm = c("local", "global", "semi.global"),
-    gap_algorithm = c("linear", "affine", "convex"),
+    w = 1,
     ...) {
     algorithm <- match.arg(algorithm)
-    gap_algorithm <- match.arg(gap_algorithm)
-    checkSpoaArgs(algorithm, gap_algorithm)
-    s <- spoa_align_character(
-        as.character(seq), algorithm, gap_algorithm,
-        m, n, g, e, q, c
-    )
+    checkSpoaArgs(seq, m, n, g, e, q, c, w)
+    if (length(w) == 1L) w <- rep(w, length(seq))
+    s <- spoa_align(as.character(seq), algorithm, m, n, g, e, q, c, w)
     names(s) <- names(seq)
     matchXMultipleAlignment(s, seq)
 }
@@ -186,11 +147,11 @@ spoaConsensus <- function(seq,
     m = 5L,
     n = -4L,
     g = -8L,
-    e = -6L,
-    q = -10L,
-    c = -4L,
+    e = g,
+    q = g,
+    c = e,
     algorithm = c("local", "global", "semi.global"),
-    gap_algorithm = c("linear", "affine", "convex"),
+    w = 1L,
     ...) {
     UseMethod("spoaConsensus")
 }
@@ -200,19 +161,16 @@ spoaConsensus.character <- function(seq,
     m = 5L,
     n = -4L,
     g = -8L,
-    e = -6L,
-    q = -10L,
-    c = -4L,
+    e = g,
+    q = g,
+    c = e,
     algorithm = c("local", "global", "semi.global"),
-    gap_algorithm = c("linear", "affine", "convex"),
+    w = 1L,
     ...) {
     algorithm <- match.arg(algorithm)
-    gap_algorithm <- match.arg(gap_algorithm)
-    checkSpoaArgs(algorithm, gap_algorithm)
-    spoa_consensus_character(
-        seq[!is.na(seq)], algorithm, gap_algorithm,
-        m, n, g, e, q, c
-    )
+    checkSpoaArgs(seq, m, n, g, e, q, c, w)
+    if (length(w) == 1L) w <- rep(w, length(seq))
+    spoa_consensus(seq[!is.na(seq)], algorithm, m, n, g, e, q, c, w)
 }
 
 #' @export
@@ -220,18 +178,15 @@ spoaConsensus.XStringSet <- function(seq,
     m = 5L,
     n = -4L,
     g = -8L,
-    e = -6L,
-    q = -10L,
-    c = -4L,
+    e = g,
+    q = g,
+    c = e,
     algorithm = c("local", "global", "semi.global"),
-    gap_algorithm = c("linear", "affine", "convex"),
+    w = 1L,
     ...) {
     algorithm <- match.arg(algorithm)
-    gap_algorithm <- match.arg(gap_algorithm)
-    checkSpoaArgs(algorithm, gap_algorithm)
-    s <- spoa_consensus_character(
-        as.character(seq), algorithm, gap_algorithm,
-        m, n, g, e, q, c
-    )
+    checkSpoaArgs(seq, m, n, g, e, q, c, w)
+    if (length(w) == 1L) w <- rep(w, length(seq))
+    s <- spoa_consensus(as.character(seq), algorithm, m, n, g, e, q, c, w)
     matchXString(s, seq)
 }

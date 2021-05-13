@@ -5,48 +5,48 @@
 
 using namespace Rcpp;
 
-// spoa_consensus_character
-String spoa_consensus_character(std::vector<std::string> seq, std::string algorithm, std::string gap_algorithm, int match, int mismatch, int gap_open, int gap_extend, int gap_open2, int gap_extend2);
-RcppExport SEXP _spoar_spoa_consensus_character(SEXP seqSEXP, SEXP algorithmSEXP, SEXP gap_algorithmSEXP, SEXP matchSEXP, SEXP mismatchSEXP, SEXP gap_openSEXP, SEXP gap_extendSEXP, SEXP gap_open2SEXP, SEXP gap_extend2SEXP) {
+// spoa_consensus
+String spoa_consensus(std::vector<std::string> seq, std::string algorithm, int m, int n, int g, int e, int q, int c, std::vector<std::uint32_t> w);
+RcppExport SEXP _spoar_spoa_consensus(SEXP seqSEXP, SEXP algorithmSEXP, SEXP mSEXP, SEXP nSEXP, SEXP gSEXP, SEXP eSEXP, SEXP qSEXP, SEXP cSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<std::string> >::type seq(seqSEXP);
     Rcpp::traits::input_parameter< std::string >::type algorithm(algorithmSEXP);
-    Rcpp::traits::input_parameter< std::string >::type gap_algorithm(gap_algorithmSEXP);
-    Rcpp::traits::input_parameter< int >::type match(matchSEXP);
-    Rcpp::traits::input_parameter< int >::type mismatch(mismatchSEXP);
-    Rcpp::traits::input_parameter< int >::type gap_open(gap_openSEXP);
-    Rcpp::traits::input_parameter< int >::type gap_extend(gap_extendSEXP);
-    Rcpp::traits::input_parameter< int >::type gap_open2(gap_open2SEXP);
-    Rcpp::traits::input_parameter< int >::type gap_extend2(gap_extend2SEXP);
-    rcpp_result_gen = Rcpp::wrap(spoa_consensus_character(seq, algorithm, gap_algorithm, match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2));
+    Rcpp::traits::input_parameter< int >::type m(mSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type g(gSEXP);
+    Rcpp::traits::input_parameter< int >::type e(eSEXP);
+    Rcpp::traits::input_parameter< int >::type q(qSEXP);
+    Rcpp::traits::input_parameter< int >::type c(cSEXP);
+    Rcpp::traits::input_parameter< std::vector<std::uint32_t> >::type w(wSEXP);
+    rcpp_result_gen = Rcpp::wrap(spoa_consensus(seq, algorithm, m, n, g, e, q, c, w));
     return rcpp_result_gen;
 END_RCPP
 }
-// spoa_align_character
-std::vector<std::string> spoa_align_character(std::vector<std::string> seq, std::string algorithm, std::string gap_algorithm, int match, int mismatch, int gap_open, int gap_extend, int gap_open2, int gap_extend2);
-RcppExport SEXP _spoar_spoa_align_character(SEXP seqSEXP, SEXP algorithmSEXP, SEXP gap_algorithmSEXP, SEXP matchSEXP, SEXP mismatchSEXP, SEXP gap_openSEXP, SEXP gap_extendSEXP, SEXP gap_open2SEXP, SEXP gap_extend2SEXP) {
+// spoa_align
+std::vector<std::string> spoa_align(std::vector<std::string> seq, std::string algorithm, int m, int n, int g, int e, int q, int c, std::vector<std::uint32_t> w);
+RcppExport SEXP _spoar_spoa_align(SEXP seqSEXP, SEXP algorithmSEXP, SEXP mSEXP, SEXP nSEXP, SEXP gSEXP, SEXP eSEXP, SEXP qSEXP, SEXP cSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<std::string> >::type seq(seqSEXP);
     Rcpp::traits::input_parameter< std::string >::type algorithm(algorithmSEXP);
-    Rcpp::traits::input_parameter< std::string >::type gap_algorithm(gap_algorithmSEXP);
-    Rcpp::traits::input_parameter< int >::type match(matchSEXP);
-    Rcpp::traits::input_parameter< int >::type mismatch(mismatchSEXP);
-    Rcpp::traits::input_parameter< int >::type gap_open(gap_openSEXP);
-    Rcpp::traits::input_parameter< int >::type gap_extend(gap_extendSEXP);
-    Rcpp::traits::input_parameter< int >::type gap_open2(gap_open2SEXP);
-    Rcpp::traits::input_parameter< int >::type gap_extend2(gap_extend2SEXP);
-    rcpp_result_gen = Rcpp::wrap(spoa_align_character(seq, algorithm, gap_algorithm, match, mismatch, gap_open, gap_extend, gap_open2, gap_extend2));
+    Rcpp::traits::input_parameter< int >::type m(mSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type g(gSEXP);
+    Rcpp::traits::input_parameter< int >::type e(eSEXP);
+    Rcpp::traits::input_parameter< int >::type q(qSEXP);
+    Rcpp::traits::input_parameter< int >::type c(cSEXP);
+    Rcpp::traits::input_parameter< std::vector<std::uint32_t> >::type w(wSEXP);
+    rcpp_result_gen = Rcpp::wrap(spoa_align(seq, algorithm, m, n, g, e, q, c, w));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_spoar_spoa_consensus_character", (DL_FUNC) &_spoar_spoa_consensus_character, 9},
-    {"_spoar_spoa_align_character", (DL_FUNC) &_spoar_spoa_align_character, 9},
+    {"_spoar_spoa_consensus", (DL_FUNC) &_spoar_spoa_consensus, 9},
+    {"_spoar_spoa_align", (DL_FUNC) &_spoar_spoa_align, 9},
     {NULL, NULL, 0}
 };
 

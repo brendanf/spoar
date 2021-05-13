@@ -7,13 +7,17 @@ sequences <- c(
     "CCGTAACCTTCATCGGATCACCGGAAAGGACCCGTAAATAGACCTGATTATCATCTACAT"
 )
 
-test_that("invalid arguments are rejected", {
-    expect_error(spoaAlign(sequences, algorithm = "wrong"))
-    expect_error(spoaAlign(sequences, m = -1))
-    expect_error(spoaAlign(sequences, n = 1))
-    expect_error(spoaAlign(sequences, g = 1))
-    expect_error(spoaAlign(sequences, e = 1))
-    expect_error(spoaAlign(sequences, q = 1))
-    expect_error(spoaAlign(sequences, c = 1))
-    expect_error(spoa_align(sequences, "wrong", 5, -2, -10, 0, -3, -1))
+weights <- seq(1, 21, 4)
+
+repsequences <- rep(sequences, weights)
+
+test_that("weighting works", {
+    expect_equal(
+        spoaConsensus(sequences, w = weights),
+        spoaConsensus(repsequences)
+    )
+    expect_equal(
+        rep(spoaAlign(sequences, w = weights), weights),
+        spoaAlign(repsequences)
+    )
 })
