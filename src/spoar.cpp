@@ -50,6 +50,31 @@ String spoa_consensus(
 }
 
 // [[Rcpp::export]]
+String spoa_consensus_qual(
+        std::vector<std::string> seq,
+        std::vector<std::vector<std::uint32_t>> qual,
+        std::string algorithm,
+        int m,
+        int n,
+        int g,
+        int e,
+        int q,
+        int c,
+        std::vector<std::uint32_t> w
+) {
+    auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
+    spoa::Graph graph{};
+    for (unsigned i = 0; i < seq.size(); i++) {
+        auto alignment = alignment_engine->Align(seq[i], graph);
+        for (unsigned j = 0; j < w[i]; j++) {
+            graph.AddAlignment(alignment, seq[i].c_str(), seq[i].size(), qual[i]);
+        }
+    }
+    auto consensus = graph.GenerateConsensus();
+    return consensus;
+}
+
+// [[Rcpp::export]]
 std::vector<std::string> spoa_align(
         std::vector<std::string> seq,
         std::string algorithm,
@@ -66,6 +91,32 @@ std::vector<std::string> spoa_align(
     for (unsigned i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
         graph.AddAlignment(alignment, seq[i], w[i]);
+    }
+
+    std::vector<std::string> msa = graph.GenerateMultipleSequenceAlignment();
+    return msa;
+}
+
+// [[Rcpp::export]]
+std::vector<std::string> spoa_align_qual(
+        std::vector<std::string> seq,
+        std::vector<std::vector<std::uint32_t>> qual,
+        std::string algorithm,
+        int m,
+        int n,
+        int g,
+        int e,
+        int q,
+        int c,
+        std::vector<std::uint32_t> w
+) {
+    auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
+    spoa::Graph graph{};
+    for (unsigned i = 0; i < seq.size(); i++) {
+        auto alignment = alignment_engine->Align(seq[i], graph);
+        for (unsigned j = 0; j < w[i]; j++) {
+            graph.AddAlignment(alignment, seq[i].c_str(), seq[i].size(), qual[i]);
+        }
     }
 
     std::vector<std::string> msa = graph.GenerateMultipleSequenceAlignment();

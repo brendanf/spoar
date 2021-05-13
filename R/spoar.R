@@ -156,6 +156,29 @@ spoaAlign.ShortRead <- function(seq,
     spoaAlign.XStringSet(seq2, m, n, g, e, q, c, algorithm, w)
 }
 
+#' @export
+spoaAlign.QualityScaledXStringSet <- function(seq,
+    m = 5L,
+    n = -4L,
+    g = -8L,
+    e = g,
+    q = g,
+    c = e,
+    algorithm = c("local", "global", "semi.global"),
+    w = 1L,
+    ...) {
+    algorithm <- match.arg(algorithm)
+    checkSpoaArgs(seq, m, n, g, e, q, c, w)
+    requireBiostrings()
+    if (length(w) == 1L) w <- rep(w, length(seq))
+    s <- spoa_align_qual(
+        as.character(seq),
+        as.list(as(Biostrings::quality(seq), "IntegerList")),
+        algorithm, m, n, g, e, q, c, w
+    )
+    matchXMultipleAlignment(s, seq)
+}
+
 #' @rdname spoaAlign
 #' @export
 spoaConsensus <- function(seq,
@@ -199,8 +222,10 @@ spoaConsensus.XStringSet <- function(seq,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
-    s <- spoaConsensus.character(as.character(seq), m, n, g, e, q, c, algorithm,
-        w)
+    s <- spoaConsensus.character(
+        as.character(seq), m, n, g, e, q, c, algorithm,
+        w
+    )
     matchXString(s, seq)
 }
 
@@ -219,4 +244,27 @@ spoaConsensus.ShortRead <- function(seq,
     seq2 <- ShortRead::sread(seq)
     names(seq2) <- as.character(ShortRead::id(seq))
     spoaConsensus.XStringSet(seq2, m, n, g, e, q, c, algorithm, w)
+}
+
+#' @export
+spoaConsensus.QualityScaledXStringSet <- function(seq,
+    m = 5L,
+    n = -4L,
+    g = -8L,
+    e = g,
+    q = g,
+    c = e,
+    algorithm = c("local", "global", "semi.global"),
+    w = 1L,
+    ...) {
+    algorithm <- match.arg(algorithm)
+    checkSpoaArgs(seq, m, n, g, e, q, c, w)
+    requireBiostrings()
+    if (length(w) == 1L) w <- rep(w, length(seq))
+    s <- spoa_consensus_qual(
+        as.character(seq),
+        as.list(methods::as(Biostrings::quality(seq), "IntegerList")),
+        algorithm, m, n, g, e, q, c, w
+    )
+    matchXString(s, seq)
 }
