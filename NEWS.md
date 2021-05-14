@@ -1,4 +1,4 @@
-# spoar 0.99.0
+# spoar 0.99.1
 
 NEW FEATURES
 
