@@ -66,7 +66,13 @@ String spoa_consensus_qual(
     spoa::Graph graph{};
     for (unsigned i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
-        for (unsigned j = 0; j < w[i]; j++) {
+        if (w[i] > 1) {
+            auto q = std::vector<std::uint32_t>(qual[i].size());
+            for (std::uint32_t qi: qual[i]) {
+                q.push_back(qi * w[i]);
+            }
+            graph.AddAlignment(alignment, seq[i].c_str(), seq[i].size(), q);
+        } else {
             graph.AddAlignment(alignment, seq[i].c_str(), seq[i].size(), qual[i]);
         }
     }
@@ -114,7 +120,13 @@ std::vector<std::string> spoa_align_qual(
     spoa::Graph graph{};
     for (unsigned i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
-        for (unsigned j = 0; j < w[i]; j++) {
+        if (w[i] > 1) {
+            auto q = std::vector<std::uint32_t>(qual[i].size());
+            for (std::uint32_t qi: qual[i]) {
+                q.push_back(qi * w[i]);
+            }
+            graph.AddAlignment(alignment, seq[i].c_str(), seq[i].size(), q);
+        } else {
             graph.AddAlignment(alignment, seq[i].c_str(), seq[i].size(), qual[i]);
         }
     }
