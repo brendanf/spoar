@@ -32,8 +32,8 @@ spoaConsensus(
 )
 }
 \arguments{
-\item{seq}{(\code{character} vector or \code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}}) sequences
-to align}
+\item{seq}{(\code{character} vector, \code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}}, or
+\code{\link[ShortRead:ShortRead-class]{ShortRead::ShortRead}}) sequences to align.}
 
 \item{m}{(non-negative \code{integer}) score for a match. \emph{Default}: \code{5L}}
 
@@ -66,7 +66,9 @@ For \code{spoaAlign()}, either a
 \code{character} vector or a \code{\link[Biostrings:MultipleAlignment-class]{Biostrings::MultipleAlignment}}, depending on
 the class of \code{seq}. If \code{seq} is a \code{BStringSet} (i.e., an \code{XStringSet} which
 is not specifically DNA, RNA, or AA) then the result is also a \code{BStringSet},
-since there is no corresponding "\code{BMultipleAlignment}" class.
+since there is no corresponding "\code{BMultipleAlignment}" class. If \code{seq} is a
+\code{\link[ShortRead:ShortRead-class]{ShortRead::ShortRead}} object, the output is a
+\code{\link[Biostrings:MultipleAlignment-class]{Biostrings::DNAMultipleAlignment}}.
 }
 \description{
 Align sequences using SPOA (and optionally get the consensus)

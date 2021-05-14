@@ -21,8 +21,8 @@ checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
 
 #' Align sequences using SPOA (and optionally get the consensus)
 #'
-#' @param seq (`character` vector or [`Biostrings::XStringSet-class`]) sequences
-#' to align
+#' @param seq (`character` vector, [`Biostrings::XStringSet-class`], or
+#' [`ShortRead::ShortRead-class`]) sequences to align.
 #' @param m (non-negative `integer`) score for a match. *Default*: `5L`
 #' @param n (non-positive `integer`) score for a mismatch. *Default*: `-4L`
 #' @param g (non-positive `integer`) gap opening penalty. *Default*: `-8L`
@@ -45,7 +45,9 @@ checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
 #' `character` vector or a [`Biostrings::MultipleAlignment-class`], depending on
 #' the class of `seq`. If `seq` is a `BStringSet` (i.e., an `XStringSet` which
 #' is not specifically DNA, RNA, or AA) then the result is also a `BStringSet`,
-#' since there is no corresponding "`BMultipleAlignment`" class.
+#' since there is no corresponding "`BMultipleAlignment`" class. If `seq` is a
+#' [`ShortRead::ShortRead-class`] object, the output is a
+#' [`Biostrings::DNAMultipleAlignment-class`].
 #'
 #' @details
 #'
