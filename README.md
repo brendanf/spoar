@@ -81,7 +81,7 @@ print(citation("spoar"), bibtex = TRUE)
 #> Furneaux B, Vaser R (2021). _SPOAR: SIMD Partial Order Alignment in R_.
 #> doi: 10.18129/B9.bioc.spoar (URL:
 #> https://doi.org/10.18129/B9.bioc.spoar),
-#> https://github.com/brendanf/spoar/spoar - R package version 0.99.0,
+#> https://github.com/brendanf/spoar/spoar - R package version 0.99.1,
 #> <URL: http://www.bioconductor.org/packages/spoar>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -91,7 +91,7 @@ print(citation("spoar"), bibtex = TRUE)
 #>     author = {Brendan Furneaux and Robert Vaser},
 #>     year = {2021},
 #>     url = {http://www.bioconductor.org/packages/spoar},
-#>     note = {https://github.com/brendanf/spoar/spoar - R package version 0.99.0},
+#>     note = {https://github.com/brendanf/spoar/spoar - R package version 0.99.1},
 #>     doi = {10.18129/B9.bioc.spoar},
 #>   }
 #> 

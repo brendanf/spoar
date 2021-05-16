@@ -41,7 +41,7 @@ String spoa_consensus(
     ) {
     auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
     spoa::Graph graph{};
-    for (unsigned i = 0; i < seq.size(); i++) {
+    for (std::size_t i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
         graph.AddAlignment(alignment, seq[i], w[i]);
     }
@@ -64,7 +64,7 @@ String spoa_consensus_qual(
 ) {
     auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
     spoa::Graph graph{};
-    for (unsigned i = 0; i < seq.size(); i++) {
+    for (std::size_t i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
         if (w[i] > 1) {
             auto q = std::vector<std::uint32_t>(qual[i].size());
@@ -94,7 +94,7 @@ std::vector<std::string> spoa_align(
     ) {
     auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
     spoa::Graph graph{};
-    for (unsigned i = 0; i < seq.size(); i++) {
+    for (std::size_t i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
         graph.AddAlignment(alignment, seq[i], w[i]);
     }

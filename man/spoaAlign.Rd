@@ -97,6 +97,26 @@ Assigning a weight \emph{w} to a sequence is equivalent to including that sequen
 \emph{w} times; this is primarily useful for dereplicated sequences, where all
 sequences are unique, and the weight represents their multiplicity.
 }
+
+\subsection{Quality scores}{
+
+If \code{seq} is an object which includes quality scores
+(\code{\link[Biostrings:QualityScaledXStringSet-class]{Biostrings::QualityScaledXStringSet}} or \code{\link[ShortRead:ShortReadQ-class]{ShortRead::ShortReadQ}}),
+then the alignment consensus is weighted using the quality scores. The method
+used by SPOA uses the integer quality scores as per-position weights
+analogous to sequence weights; i.e., if two different bases align in the same
+position, one in a single sequence with quality score 40 and the other in a
+single sequence with quality score 20, then this is equivalent to the first
+base occurring at that position in 40 sequences without quality scores, and
+the second base occurring at that position in 20 sequences without quality
+scores.
+
+It is possible to use a combination of sequence weights and quality scores.
+In this case, in order for a dereplicated sequence set to give the same
+results as the non-dereplicated sequences, the quality score for each of the
+dereplicated sequences should be the mean of the quality scores for the
+corresponding non-dereplicated sequences.
+}
 }
 \examples{
 sequences <- c(

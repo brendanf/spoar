@@ -73,6 +73,25 @@ checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
 #' *w* times; this is primarily useful for dereplicated sequences, where all
 #' sequences are unique, and the weight represents their multiplicity.
 #'
+#' ## Quality scores
+#'
+#' If `seq` is an object which includes quality scores
+#' ([`Biostrings::QualityScaledXStringSet-class`] or [`ShortRead::ShortReadQ`]),
+#' then the alignment consensus is weighted using the quality scores. The method
+#' used by SPOA uses the integer quality scores as per-position weights
+#' analogous to sequence weights; i.e., if two different bases align in the same
+#' position, one in a single sequence with quality score 40 and the other in a
+#' single sequence with quality score 20, then this is equivalent to the first
+#' base occurring at that position in 40 sequences without quality scores, and
+#' the second base occurring at that position in 20 sequences without quality
+#' scores.
+#'
+#' It is possible to use a combination of sequence weights and quality scores.
+#' In this case, in order for a dereplicated sequence set to give the same
+#' results as the non-dereplicated sequences, the quality score for each of the
+#' dereplicated sequences should be the mean of the quality scores for the
+#' corresponding non-dereplicated sequences.
+#'
 #' @examples
 #' sequences <- c(
 #'     "CATAAAAGAACGTAGGTCGCCCGTCCGTAACCTGTCGGATCACCGGAAAGGACCCGTAAAGTGATAATGAT",
@@ -179,6 +198,25 @@ spoaAlign.QualityScaledXStringSet <- function(seq,
     matchXMultipleAlignment(s, seq)
 }
 
+#' @export
+spoaAlign.ShortReadQ <- function(seq,
+    m = 5L,
+    n = -4L,
+    g = -8L,
+    e = g,
+    q = g,
+    c = e,
+    algorithm = c("local", "global", "semi.global"),
+    w = 1L,
+    ...) {
+    requireShortRead()
+    requireBiostrings()
+    spoaAlign.QualityScaledXStringSet(
+        methods::as(seq, "QualityScaledDNAStringSet"),
+        m, n, g, e, q, c, algorithm, w, ...
+    )
+}
+
 #' @rdname spoaAlign
 #' @export
 spoaConsensus <- function(seq,
@@ -267,4 +305,23 @@ spoaConsensus.QualityScaledXStringSet <- function(seq,
         algorithm, m, n, g, e, q, c, w
     )
     matchXString(s, seq)
+}
+
+#' @export
+spoaConsensus.ShortReadQ <- function(seq,
+    m = 5L,
+    n = -4L,
+    g = -8L,
+    e = g,
+    q = g,
+    c = e,
+    algorithm = c("local", "global", "semi.global"),
+    w = 1L,
+    ...) {
+    requireShortRead()
+    requireBiostrings()
+    spoaConsensus.QualityScaledXStringSet(
+        methods::as(seq, "QualityScaledDNAStringSet"),
+        m, n, g, e, q, c, algorithm, w, ...
+    )
 }

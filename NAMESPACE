@@ -2,10 +2,12 @@
 
 S3method(spoaAlign,QualityScaledXStringSet)
 S3method(spoaAlign,ShortRead)
+S3method(spoaAlign,ShortReadQ)
 S3method(spoaAlign,XStringSet)
 S3method(spoaAlign,character)
 S3method(spoaConsensus,QualityScaledXStringSet)
 S3method(spoaConsensus,ShortRead)
+S3method(spoaConsensus,ShortReadQ)
 S3method(spoaConsensus,XStringSet)
 S3method(spoaConsensus,character)
 export(spoaAlign)
