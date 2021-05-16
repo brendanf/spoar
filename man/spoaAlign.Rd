@@ -32,8 +32,9 @@ spoaConsensus(
 )
 }
 \arguments{
-\item{seq}{(\code{character} vector, \code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}}, or
-\code{\link[ShortRead:ShortRead-class]{ShortRead::ShortRead}}) sequences to align.}
+\item{seq}{(\code{character} vector, \code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}},
+\code{\link[ShortRead:ShortRead-class]{ShortRead::ShortRead}}, or \code{\link[dada2:derep-class]{dada2::derep}}) sequences to
+align.}
 
 \item{m}{(non-negative \code{integer}) score for a match. \emph{Default}: \code{5L}}
 
@@ -68,7 +69,20 @@ the class of \code{seq}. If \code{seq} is a \code{BStringSet} (i.e., an \code{XS
 is not specifically DNA, RNA, or AA) then the result is also a \code{BStringSet},
 since there is no corresponding "\code{BMultipleAlignment}" class. If \code{seq} is a
 \code{\link[ShortRead:ShortRead-class]{ShortRead::ShortRead}} object, the output is a
-\code{\link[Biostrings:MultipleAlignment-class]{Biostrings::DNAMultipleAlignment}}.
+\code{\link[Biostrings:MultipleAlignment-class]{Biostrings::DNAMultipleAlignment}}.\tabular{lll}{
+   \strong{seq} \tab \strong{spoaConsensus} \tab \strong{spoaAlign} \cr
+   \code{character(n)} \tab \code{character(1)} \tab \code{character(n)} \cr
+   \code{\link[Biostrings:XStringSet-class]{BStringSet}} \tab \code{\link[Biostrings:XString-class]{BString}} \tab \code{\link[Biostrings:XStringSet-class]{BStringSet}} \cr
+   \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} \tab \code{\link[Biostrings:XString-class]{DNAString}} \tab \code{\link[Biostrings:MultipleAlignment-class]{DNAMultipleAlignment}} \cr
+   \code{\link[Biostrings:XStringSet-class]{RNAStringSet}} \tab \code{\link[Biostrings:XString-class]{RNAString}} \tab \code{\link[Biostrings:MultipleAlignment-class]{RNAMultipleAlignment}} \cr
+   \code{\link[Biostrings:XStringSet-class]{AAStringSet}} \tab \code{\link[Biostrings:XString-class]{AAString}} \tab \code{\link[Biostrings:MultipleAlignment-class]{AAMultipleAlignment}} \cr
+   \code{\link[Biostrings:QualityScaledXStringSet-class]{QualityScaledBStringSet}} \tab \code{\link[Biostrings:XString-class]{BString}} \tab \code{\link[Biostrings:XStringSet-class]{BStringSet}} \cr
+   \code{\link[Biostrings:QualityScaledXStringSet-class]{QualityScaledDNAStringSet}} \tab \code{\link[Biostrings:XString-class]{DNAString}} \tab \code{\link[Biostrings:MultipleAlignment-class]{DNAMultipleAlignment}} \cr
+   \code{\link[Biostrings:QualityScaledXStringSet-class]{QualityScaledRNAStringSet}} \tab \code{\link[Biostrings:XString-class]{RNAString}} \tab \code{\link[Biostrings:MultipleAlignment-class]{RNAMultipleAlignment}} \cr
+   \code{\link[Biostrings:QualityScaledXStringSet-class]{QualityScaledAAStringSet}} \tab \code{\link[Biostrings:XString-class]{AAString}} \tab \code{\link[Biostrings:MultipleAlignment-class]{AAMultipleAlignment}} \cr
+   \code{\link[ShortRead:ShortReadQ-class]{ShortReadQ}} \tab \code{\link[Biostrings:XString-class]{DNAString}} \tab \code{\link[Biostrings:MultipleAlignment-class]{DNAMultipleAlignment}} \cr
+   \code{\link[dada2:derep-class]{derep}} \tab \code{character(1)} \tab \code{character(n)} \cr
+}
 }
 \description{
 Align sequences using SPOA (and optionally get the consensus)
@@ -96,6 +110,11 @@ penalty:
 Assigning a weight \emph{w} to a sequence is equivalent to including that sequence
 \emph{w} times; this is primarily useful for dereplicated sequences, where all
 sequences are unique, and the weight represents their multiplicity.
+
+Note that POA is not order-independent, so results may differ when a set of
+non-unique sequences is dereplicated. For the most predictable results, it
+is recommended to sort dereplicated sequences in decreasing order of
+abundance (as in \code{\link[dada2:derepFastq]{dada2::derepFastq()}}).
 }
 
 \subsection{Quality scores}{
@@ -115,7 +134,8 @@ It is possible to use a combination of sequence weights and quality scores.
 In this case, in order for a dereplicated sequence set to give the same
 results as the non-dereplicated sequences, the quality score for each of the
 dereplicated sequences should be the mean of the quality scores for the
-corresponding non-dereplicated sequences.
+corresponding non-dereplicated sequences. This is the method used to generate
+quality scores for dereplicated sequences in \code{\link[dada2:derepFastq]{dada2::derepFastq()}}.
 }
 }
 \examples{

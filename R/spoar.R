@@ -21,8 +21,9 @@ checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
 
 #' Align sequences using SPOA (and optionally get the consensus)
 #'
-#' @param seq (`character` vector, [`Biostrings::XStringSet-class`], or
-#' [`ShortRead::ShortRead-class`]) sequences to align.
+#' @param seq (`character` vector, [`Biostrings::XStringSet-class`],
+#' [`ShortRead::ShortRead-class`], or [`dada2::derep-class`]) sequences to
+#' align.
 #' @param m (non-negative `integer`) score for a match. *Default*: `5L`
 #' @param n (non-positive `integer`) score for a mismatch. *Default*: `-4L`
 #' @param g (non-positive `integer`) gap opening penalty. *Default*: `-8L`
@@ -49,6 +50,20 @@ checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
 #' [`ShortRead::ShortRead-class`] object, the output is a
 #' [`Biostrings::DNAMultipleAlignment-class`].
 #'
+#' | **seq**| **spoaConsensus** | **spoaAlign** |
+#' |---------|---------------|-----------|
+#' |`character(n)`|`character(1)` | `character(n)`|
+#' |[`BStringSet`][Biostrings::XStringSet-class]|[`BString`][Biostrings::XString-class]|[`BStringSet`][Biostrings::XStringSet-class]|
+#' |[`DNAStringSet`][Biostrings::XStringSet-class]|[`DNAString`][Biostrings::XString-class]|[`DNAMultipleAlignment`][Biostrings::MultipleAlignment-class]|
+#' |[`RNAStringSet`][Biostrings::XStringSet-class]|[`RNAString`][Biostrings::XString-class]|[`RNAMultipleAlignment`][Biostrings::MultipleAlignment-class]|
+#' |[`AAStringSet`][Biostrings::XStringSet-class]|[`AAString`][Biostrings::XString-class]|[`AAMultipleAlignment`][Biostrings::MultipleAlignment-class]|
+#' |[`QualityScaledBStringSet`][Biostrings::QualityScaledXStringSet-class]|[`BString`][Biostrings::XString-class]|[`BStringSet`][Biostrings::XStringSet-class]|
+#' |[`QualityScaledDNAStringSet`][Biostrings::QualityScaledXStringSet-class]|[`DNAString`][Biostrings::XString-class]|[`DNAMultipleAlignment`][Biostrings::MultipleAlignment-class]|
+#' |[`QualityScaledRNAStringSet`][Biostrings::QualityScaledXStringSet-class]|[`RNAString`][Biostrings::XString-class]|[`RNAMultipleAlignment`][Biostrings::MultipleAlignment-class]|
+#' |[`QualityScaledAAStringSet`][Biostrings::QualityScaledXStringSet-class]|[`AAString`][Biostrings::XString-class]|[`AAMultipleAlignment`][Biostrings::MultipleAlignment-class]|
+#' |[`ShortReadQ`][ShortRead::ShortReadQ-class]|[`DNAString`][Biostrings::XString-class]|[`DNAMultipleAlignment`][Biostrings::MultipleAlignment-class]|
+#' |[`derep`][dada2::derep-class]|`character(1)`| `character(n)`|
+#'
 #' @details
 #'
 #' ## Gap penalties
@@ -73,6 +88,11 @@ checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
 #' *w* times; this is primarily useful for dereplicated sequences, where all
 #' sequences are unique, and the weight represents their multiplicity.
 #'
+#' Note that POA is not order-independent, so results may differ when a set of
+#' non-unique sequences is dereplicated. For the most predictable results, it
+#' is recommended to sort dereplicated sequences in decreasing order of
+#' abundance (as in [dada2::derepFastq()]).
+#'
 #' ## Quality scores
 #'
 #' If `seq` is an object which includes quality scores
@@ -90,7 +110,8 @@ checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
 #' In this case, in order for a dereplicated sequence set to give the same
 #' results as the non-dereplicated sequences, the quality score for each of the
 #' dereplicated sequences should be the mean of the quality scores for the
-#' corresponding non-dereplicated sequences.
+#' corresponding non-dereplicated sequences. This is the method used to generate
+#' quality scores for dereplicated sequences in [dada2::derepFastq()].
 #'
 #' @examples
 #' sequences <- c(
@@ -105,12 +126,7 @@ checkSpoaArgs <- function(seq, m, n, g, e, q, c, w) {
 #' spoaConsensus(sequences)
 #' @export
 spoaAlign <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1,
     ...) {
@@ -120,12 +136,7 @@ spoaAlign <- function(seq,
 
 #' @export
 spoaAlign.character <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1,
     ...) {
@@ -145,12 +156,7 @@ spoaAlign.character <- function(seq,
 
 #' @export
 spoaAlign.XStringSet <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1,
     ...) {
@@ -160,12 +166,7 @@ spoaAlign.XStringSet <- function(seq,
 
 #' @export
 spoaAlign.ShortRead <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -177,12 +178,7 @@ spoaAlign.ShortRead <- function(seq,
 
 #' @export
 spoaAlign.QualityScaledXStringSet <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -200,12 +196,7 @@ spoaAlign.QualityScaledXStringSet <- function(seq,
 
 #' @export
 spoaAlign.ShortReadQ <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -219,12 +210,7 @@ spoaAlign.ShortReadQ <- function(seq,
 
 #' @export
 spoaAlign.derep <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     ...) {
     algorithm <- match.arg(algorithm)
@@ -239,12 +225,7 @@ spoaAlign.derep <- function(seq,
 #' @rdname spoaAlign
 #' @export
 spoaConsensus <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -253,12 +234,7 @@ spoaConsensus <- function(seq,
 
 #' @export
 spoaConsensus.character <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -270,12 +246,7 @@ spoaConsensus.character <- function(seq,
 
 #' @export
 spoaConsensus.XStringSet <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -288,12 +259,7 @@ spoaConsensus.XStringSet <- function(seq,
 
 #' @export
 spoaConsensus.ShortRead <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -305,12 +271,7 @@ spoaConsensus.ShortRead <- function(seq,
 
 #' @export
 spoaConsensus.QualityScaledXStringSet <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -328,12 +289,7 @@ spoaConsensus.QualityScaledXStringSet <- function(seq,
 
 #' @export
 spoaConsensus.ShortReadQ <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     w = 1L,
     ...) {
@@ -347,12 +303,7 @@ spoaConsensus.ShortReadQ <- function(seq,
 
 #' @export
 spoaConsensus.derep <- function(seq,
-    m = 5L,
-    n = -4L,
-    g = -8L,
-    e = g,
-    q = g,
-    c = e,
+    m = 5L, n = -4L, g = -8L, e = g, q = g, c = e,
     algorithm = c("local", "global", "semi.global"),
     ...) {
     algorithm <- match.arg(algorithm)
