@@ -50,7 +50,34 @@ String spoa_consensus(
 }
 
 // [[Rcpp::export]]
-String spoa_consensus_qual(
+String spoa_consensus_dblqual(
+        std::vector<std::string> seq,
+        std::vector<std::vector<std::double_t>> qual,
+        std::string algorithm,
+        int m,
+        int n,
+        int g,
+        int e,
+        int q,
+        int c,
+        std::vector<std::uint32_t> w
+) {
+    auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
+    spoa::Graph graph{};
+    for (std::size_t i = 0; i < seq.size(); i++) {
+        auto alignment = alignment_engine->Align(seq[i], graph);
+        auto q = std::vector<std::uint32_t>(seq[i].size());
+        for (std::size_t j = 0; j < seq[i].size(); j++){
+            q.push_back(qual[i][j] * w[i]);
+        }
+        graph.AddAlignment(alignment, seq[i].c_str(), seq[i].size(), q);
+    }
+    auto consensus = graph.GenerateConsensus();
+    return consensus;
+}
+
+// [[Rcpp::export]]
+String spoa_consensus_intqual(
         std::vector<std::string> seq,
         std::vector<std::vector<std::uint32_t>> qual,
         std::string algorithm,
@@ -104,7 +131,35 @@ std::vector<std::string> spoa_align(
 }
 
 // [[Rcpp::export]]
-std::vector<std::string> spoa_align_qual(
+std::vector<std::string> spoa_align_dblqual(
+        std::vector<std::string> seq,
+        std::vector<std::vector<std::double_t>> qual,
+        std::string algorithm,
+        int m,
+        int n,
+        int g,
+        int e,
+        int q,
+        int c,
+        std::vector<std::uint32_t> w
+) {
+    auto alignment_engine = get_alignment_engine(algorithm, m, n, g, e, q, c);
+    spoa::Graph graph{};
+    for (std::size_t i = 0; i < seq.size(); i++) {
+        auto alignment = alignment_engine->Align(seq[i], graph);
+        auto q = std::vector<std::uint32_t>(seq[i].size());
+        for (std::size_t j = 0; j < seq[i].size(); j++) {
+            q.push_back(qual[i][j] * w[i]);
+        }
+        graph.AddAlignment(alignment, seq[i].c_str(), seq[i].size(), q);
+    }
+
+    std::vector<std::string> msa = graph.GenerateMultipleSequenceAlignment();
+    return msa;
+}
+
+// [[Rcpp::export]]
+std::vector<std::string> spoa_align_intqual(
         std::vector<std::string> seq,
         std::vector<std::vector<std::uint32_t>> qual,
         std::string algorithm,

@@ -5,15 +5,23 @@ spoa_consensus <- function(seq, algorithm, m, n, g, e, q, c, w) {
     .Call(`_spoar_spoa_consensus`, seq, algorithm, m, n, g, e, q, c, w)
 }
 
-spoa_consensus_qual <- function(seq, qual, algorithm, m, n, g, e, q, c, w) {
-    .Call(`_spoar_spoa_consensus_qual`, seq, qual, algorithm, m, n, g, e, q, c, w)
+spoa_consensus_dblqual <- function(seq, qual, algorithm, m, n, g, e, q, c, w) {
+    .Call(`_spoar_spoa_consensus_dblqual`, seq, qual, algorithm, m, n, g, e, q, c, w)
+}
+
+spoa_consensus_intqual <- function(seq, qual, algorithm, m, n, g, e, q, c, w) {
+    .Call(`_spoar_spoa_consensus_intqual`, seq, qual, algorithm, m, n, g, e, q, c, w)
 }
 
 spoa_align <- function(seq, algorithm, m, n, g, e, q, c, w) {
     .Call(`_spoar_spoa_align`, seq, algorithm, m, n, g, e, q, c, w)
 }
 
-spoa_align_qual <- function(seq, qual, algorithm, m, n, g, e, q, c, w) {
-    .Call(`_spoar_spoa_align_qual`, seq, qual, algorithm, m, n, g, e, q, c, w)
+spoa_align_dblqual <- function(seq, qual, algorithm, m, n, g, e, q, c, w) {
+    .Call(`_spoar_spoa_align_dblqual`, seq, qual, algorithm, m, n, g, e, q, c, w)
+}
+
+spoa_align_intqual <- function(seq, qual, algorithm, m, n, g, e, q, c, w) {
+    .Call(`_spoar_spoa_align_intqual`, seq, qual, algorithm, m, n, g, e, q, c, w)
 }
 

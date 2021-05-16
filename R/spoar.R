@@ -190,7 +190,7 @@ spoaAlign.QualityScaledXStringSet <- function(seq,
     checkSpoaArgs(seq, m, n, g, e, q, c, w)
     requireBiostrings()
     if (length(w) == 1L) w <- rep(w, length(seq))
-    s <- spoa_align_qual(
+    s <- spoa_align_intqual(
         as.character(seq),
         as.list(as(Biostrings::quality(seq), "IntegerList")),
         algorithm, m, n, g, e, q, c, w
@@ -299,7 +299,7 @@ spoaConsensus.QualityScaledXStringSet <- function(seq,
     checkSpoaArgs(seq, m, n, g, e, q, c, w)
     requireBiostrings()
     if (length(w) == 1L) w <- rep(w, length(seq))
-    s <- spoa_consensus_qual(
+    s <- spoa_consensus_intqual(
         as.character(seq),
         as.list(methods::as(Biostrings::quality(seq), "IntegerList")),
         algorithm, m, n, g, e, q, c, w
