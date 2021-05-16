@@ -1,6 +1,6 @@
 Package: spoar
 Title: SIMD Partial Order Alignment in R
-Version: 0.99.1
+Version: 0.99.2
 Date: 2021-05-08
 Authors@R:
     c(
@@ -36,6 +36,7 @@ Imports:
 LinkingTo: Rcpp
 Suggests: 
     Biostrings,
+    DADA2,
     ShortRead,
     knitr,
     covr,
