@@ -217,6 +217,25 @@ spoaAlign.ShortReadQ <- function(seq,
     )
 }
 
+#' @export
+spoaAlign.derep <- function(seq,
+    m = 5L,
+    n = -4L,
+    g = -8L,
+    e = g,
+    q = g,
+    c = e,
+    algorithm = c("local", "global", "semi.global"),
+    ...) {
+    algorithm <- match.arg(algorithm)
+    checkSpoaArgs(names(seq$uniques), m, n, g, e, q, c, seq$uniques)
+    spoa_align_dblqual(
+        names(seq$uniques),
+        apply(seq$quals, 1, stats::na.omit), algorithm, m, n, g, e, q, c,
+        seq$uniques
+    )
+}
+
 #' @rdname spoaAlign
 #' @export
 spoaConsensus <- function(seq,
@@ -323,5 +342,24 @@ spoaConsensus.ShortReadQ <- function(seq,
     spoaConsensus.QualityScaledXStringSet(
         methods::as(seq, "QualityScaledDNAStringSet"),
         m, n, g, e, q, c, algorithm, w, ...
+    )
+}
+
+#' @export
+spoaConsensus.derep <- function(seq,
+    m = 5L,
+    n = -4L,
+    g = -8L,
+    e = g,
+    q = g,
+    c = e,
+    algorithm = c("local", "global", "semi.global"),
+    ...) {
+    algorithm <- match.arg(algorithm)
+    checkSpoaArgs(names(seq$uniques), m, n, g, e, q, c, seq$uniques)
+    spoa_consensus_dblqual(
+        names(seq$uniques),
+        apply(seq$quals, 1, stats::na.omit), algorithm, m, n, g, e, q, c,
+        seq$uniques
     )
 }

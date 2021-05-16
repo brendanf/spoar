@@ -66,7 +66,8 @@ String spoa_consensus_dblqual(
     spoa::Graph graph{};
     for (std::size_t i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
-        auto q = std::vector<std::uint32_t>(seq[i].size());
+        auto q = std::vector<std::uint32_t>();
+        q.reserve(seq[i].size());
         for (std::size_t j = 0; j < seq[i].size(); j++){
             q.push_back(qual[i][j] * w[i]);
         }
@@ -94,7 +95,8 @@ String spoa_consensus_intqual(
     for (std::size_t i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
         if (w[i] > 1) {
-            auto q = std::vector<std::uint32_t>(qual[i].size());
+            auto q = std::vector<std::uint32_t>();
+            q.reserve(seq[i].size());
             for (std::uint32_t qi: qual[i]) {
                 q.push_back(qi * w[i]);
             }
@@ -147,7 +149,8 @@ std::vector<std::string> spoa_align_dblqual(
     spoa::Graph graph{};
     for (std::size_t i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
-        auto q = std::vector<std::uint32_t>(seq[i].size());
+        auto q = std::vector<std::uint32_t>();
+        q.reserve(seq[i].size());
         for (std::size_t j = 0; j < seq[i].size(); j++) {
             q.push_back(qual[i][j] * w[i]);
         }
@@ -176,7 +179,8 @@ std::vector<std::string> spoa_align_intqual(
     for (unsigned i = 0; i < seq.size(); i++) {
         auto alignment = alignment_engine->Align(seq[i], graph);
         if (w[i] > 1) {
-            auto q = std::vector<std::uint32_t>(qual[i].size());
+            auto q = std::vector<std::uint32_t>();
+            q.reserve(seq[i].size());
             for (std::uint32_t qi: qual[i]) {
                 q.push_back(qi * w[i]);
             }
