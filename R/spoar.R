@@ -221,7 +221,7 @@ spoaAlign.ShortRead <- function(seq, algo = SpoaAlgo(), w = 1, qual = NULL, ...)
 spoaAlign.QualityScaledXStringSet <- function(seq, algo = SpoaAlgo(), w = 1, ...) {
     requireBiostrings()
     s <- spoaAlign.character(as.character(seq), algo, w,
-        qual = as.list(as(Biostrings::quality(seq), "IntegerList"))
+        qual = as.list(methods::as(Biostrings::quality(seq), "IntegerList"))
     )
     matchXMultipleAlignment(s, seq)
 }
