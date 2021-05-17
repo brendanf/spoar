@@ -9,35 +9,35 @@ sequences <- c(
 
 test_that("invalid arguments are rejected", {
     expect_error(
-        spoaAlgo(algorithm = "wrong"),
+        SpoaAlgo(algorithm = "wrong"),
         "'arg' should be one of \"local\", \"global\", \"semi.global\""
     )
-    expect_error(spoaAlgo(m = -1L),
+    expect_error(SpoaAlgo(m = -1L),
         "m is not a single non-negative integer.",
         fixed = TRUE
     )
     expect_error(
-        spoaAlgo(n = 1L),
+        SpoaAlgo(n = 1L),
         "n is not a single non-positive integer."
     )
     expect_error(
-        spoaAlgo(g = 1L),
+        SpoaAlgo(g = 1L),
         "g is not a single non-positive integer."
     )
     expect_error(
-        spoaAlgo(e = 1L),
+        SpoaAlgo(e = 1L),
         "e is not a single non-positive integer."
     )
     expect_error(
-        spoaAlgo(q = 1L),
+        SpoaAlgo(q = 1L),
         "q is not a single non-positive integer."
     )
     expect_error(
-        spoaAlgo(c = 1L),
+        SpoaAlgo(c = 1L),
         "c is not a single non-positive integer."
     )
     expect_error(
-        spoaAlgo("wrong", 5L, -2L, -8L, 0L, -3L, -1L),
+        SpoaAlgo("wrong", 5L, -2L, -8L, 0L, -3L, -1L),
         "'arg' should be one of \"local\", \"global\", \"semi.global\""
     )
     expect_error(
