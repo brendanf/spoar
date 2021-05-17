@@ -34,6 +34,51 @@ assertthat::on_failure(isConformable) <- function(call, env) {
     )
 }
 
+checkWeights <- function(seq, w) {
+    assertthat::assert_that(
+        isPositiveInt(w),
+        isConformable(w, seq)
+    )
+}
+
+areSameLength <- function(x, y) {
+    length(x) == length(y)
+}
+assertthat::on_failure(areSameLength) <- function(call, env) {
+    sprintf(
+        "Arguments '%s' and '%s' do not have the same length.",
+        deparse(call$x), deparse(call$y)
+    )
+}
+
+isAllPositive <- function(x) {
+    all(vapply(x, function(y) all(vapply(y, `>`, TRUE, 0)), TRUE))
+}
+assertthat::on_failure(isAllPositive) <- function(call, env) {
+    sprintf(
+        "Argument '%s' is not a list of positive numeric vectors.",
+        deparse(call$x)
+    )
+}
+
+areSameWidth <- function(x, y) {
+    all(nchar(x) == vapply(y, length, 1L))
+}
+assertthat::on_failure(areSameWidth) <- function(call, env) {
+    sprintf(
+        "Arguments '%s' and '%s' do not have matching widths.",
+        deparse(call$x), deparse(call$y)
+    )
+}
+
+checkQuals <- function(seq, qual) {
+    assertthat::assert_that(
+        isAllPositive(qual),
+        areSameLength(seq, qual),
+        areSameWidth(seq, qual)
+    )
+}
+
 requireBiostrings <- function() {
     if (!requireNamespace("Biostrings", quietly = TRUE)) {
         stop("Operating on XStringSet objects requires the 'Biostrings' package.")

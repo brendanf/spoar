@@ -9,78 +9,78 @@ sequences <- c(
 
 test_that("spoaConsensus does not regress", {
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, algorithm = "global"),
+        spoaConsensus(sequences, spoaAlgo("global", 3, -5, -3)),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, algorithm = "local"),
+        spoaConsensus(sequences, spoaAlgo("local", 3, -5, -3)),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, algorithm = "semi.global"),
+        spoaConsensus(sequences, spoaAlgo("semi.global", 3, -5, -3)),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, algorithm = "global"),
+        spoaConsensus(sequences, spoaAlgo("global", 3, -5, -3, 0)),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, algorithm = "local"),
+        spoaConsensus(sequences, spoaAlgo("local", 3, -5, -3, 0)),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, algorithm = "semi.global"),
+        spoaConsensus(sequences, spoaAlgo("semi.global", 3, -5, -3, 0)),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, -1, -1, algorithm = "global"),
+        spoaConsensus(sequences, spoaAlgo("global", 3, -5, -3, 0, -1, -1)),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, -1, -1, algorithm = "local"),
+        spoaConsensus(sequences, spoaAlgo("local", 3, -5, -3, 0, -1, -1)),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, -1, -1, algorithm = "semi"),
+        spoaConsensus(sequences, spoaAlgo("semi", 3, -5, -3, 0, -1, -1)),
         cran = TRUE
     )
 })
 
 test_that("spoaAlign does not regress", {
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, algorithm = "global"),
+        spoaAlign(sequences, spoaAlgo("global", 3, -5, -3)),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, algorithm = "local"),
+        spoaAlign(sequences, spoaAlgo("local", 3, -5, -3)),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, algorithm = "semi"),
+        spoaAlign(sequences, spoaAlgo("semi", 3, -5, -3)),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, algorithm = "global"),
+        spoaAlign(sequences, spoaAlgo("global", 3, -5, -3, 0)),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, algorithm = "local"),
+        spoaAlign(sequences, spoaAlgo("local", 3, -5, -3, 0)),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, algorithm = "semi"),
+        spoaAlign(sequences, spoaAlgo("semi", 3, -5, -3, 0)),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, -1, -1, algorithm = "global"),
+        spoaAlign(sequences, spoaAlgo("global", 3, -5, -3, 0, -1, -1)),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, -1, -1, algorithm = "local"),
+        spoaAlign(sequences, spoaAlgo("local", 3, -5, -3, 0, -1, -1)),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, -1, -1, algorithm = "semi"),
+        spoaAlign(sequences, spoaAlgo("semi", 3, -5, -3, 0, -1, -1)),
         style = "json2", cran = TRUE
     )
 })
@@ -89,78 +89,78 @@ w <- seq(1, 21, 4)
 
 test_that("weighted spoaConsensus does not regress", {
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, algo = "global", w = w),
+        spoaConsensus(sequences, spoaAlgo("global", 3, -5, -3), w = w),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, algo = "local", w = w),
+        spoaConsensus(sequences, spoaAlgo("local", 3, -5, -3), w = w),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, algo = "semi.global", w = w),
+        spoaConsensus(sequences, spoaAlgo("semi.global", 3, -5, -3), w = w),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, algo = "global", w = w),
+        spoaConsensus(sequences, spoaAlgo("global", 3, -5, -3, 0), w = w),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, algo = "local", w = w),
+        spoaConsensus(sequences, spoaAlgo("local", 3, -5, -3, 0), w = w),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, algo = "semi.global", w = w),
+        spoaConsensus(sequences, spoaAlgo("semi.global", 3, -5, -3, 0), w = w),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, -1, -1, algo = "global", w = w),
+        spoaConsensus(sequences, spoaAlgo("global", 3, -5, -3, 0, -1, -1), w = w),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, -1, -1, algo = "local", w = w),
+        spoaConsensus(sequences, spoaAlgo("local", 3, -5, -3, 0, -1, -1), w = w),
         cran = TRUE
     )
     expect_snapshot_value(
-        spoaConsensus(sequences, 3, -5, -3, 0, -1, -1, algo = "semi", w = w),
+        spoaConsensus(sequences, spoaAlgo("semi", 3, -5, -3, 0, -1, -1), w = w),
         cran = TRUE
     )
 })
 
 test_that("weighted spoaAlign does not regress", {
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, algo = "global", w = w),
+        spoaAlign(sequences, spoaAlgo("global", 3, -5, -3), w = w),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, algo = "local", w = w),
+        spoaAlign(sequences, spoaAlgo("local", 3, -5, -3), w = w),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, algo = "semi.global", w = w),
+        spoaAlign(sequences, spoaAlgo("semi.global", 3, -5, -3), w = w),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, algo = "global", w = w),
+        spoaAlign(sequences, spoaAlgo("global", 3, -5, -3, 0), w = w),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, algo = "local", w = w),
+        spoaAlign(sequences, spoaAlgo("local", 3, -5, -3, 0), w = w),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, algo = "semi.global", w = w),
+        spoaAlign(sequences, spoaAlgo("semi.global", 3, -5, -3, 0), w = w),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, -1, -1, algo = "global", w = w),
+        spoaAlign(sequences, spoaAlgo("global", 3, -5, -3, 0, -1, -1), w = w),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, -1, -1, algo = "local", w = w),
+        spoaAlign(sequences, spoaAlgo("local", 3, -5, -3, 0, -1, -1), w = w),
         style = "json2", cran = TRUE
     )
     expect_snapshot_value(
-        spoaAlign(sequences, 3, -5, -3, 0, -1, -1, algo = "semi", w = w),
+        spoaAlign(sequences, spoaAlgo("semi", 3, -5, -3, 0, -1, -1), w = w),
         style = "json2", cran = TRUE
     )
 })
