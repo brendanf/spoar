@@ -37,10 +37,10 @@ methods::setClass(
 #' (Smith-Watterman), `"global"` (Needleman-Wunsch), or `"semi.global"`
 #' (Overlap). *Default*: `"local"`
 #'
-#' @return an object of class "`spoaAlgo`", suitable for passing to
+#' @return an object of class "`SpoaAlgo`", suitable for passing to
 #' [spoaAlign()] or [spoaConsensus()]
 #' @rdname spoaAlign
-spoaAlgo <- function(algorithm = c("local", "global", "semi.global"),
+SpoaAlgo <- function(algorithm = c("local", "global", "semi.global"),
     m = 5L, n = -4L, g = -8L, e = g, q = g, c = q) {
     algorithm <- match.arg(algorithm)
     assertthat::assert_that(
