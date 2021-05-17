@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Align sequences using SPOA (and optionally get the consensus) — spoaAlign • spoar</title>
+<title>Specify an algorithm for SPOA — SpoaAlgo • spoar</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Align sequences using SPOA (and optionally get the consensus) — spoaAlign" />
-<meta property="og:description" content="Align sequences using SPOA (and optionally get the consensus)" />
+<meta property="og:title" content="Specify an algorithm for SPOA — SpoaAlgo" />
+<meta property="og:description" content="Specify an algorithm for SPOA
+Align sequences using SPOA (and optionally get the consensus)" />
 
 
 
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spoar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
       </span>
     </div>
 
@@ -114,48 +115,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Align sequences using SPOA (and optionally get the consensus)</h1>
+    <h1>Specify an algorithm for SPOA</h1>
     <small class="dont-index">Source: <a href='https://github.com/brendanf/spoar/blob/master/R/spoar.R'><code>R/spoar.R</code></a></small>
     <div class="hidden name"><code>spoaAlign.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Align sequences using SPOA (and optionally get the consensus)</p>
+    <p>Specify an algorithm for SPOA</p>
+<p>Align sequences using SPOA (and optionally get the consensus)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>spoaAlign</span><span class='op'>(</span>
-  <span class='va'>seq</span>,
+    <pre class="usage"><span class='fu'>SpoaAlgo</span><span class='op'>(</span>
+  algorithm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"local"</span>, <span class='st'>"global"</span>, <span class='st'>"semi.global"</span><span class='op'>)</span>,
   m <span class='op'>=</span> <span class='fl'>5L</span>,
   n <span class='op'>=</span> <span class='op'>-</span><span class='fl'>4L</span>,
   g <span class='op'>=</span> <span class='op'>-</span><span class='fl'>8L</span>,
   e <span class='op'>=</span> <span class='va'>g</span>,
   q <span class='op'>=</span> <span class='va'>g</span>,
-  c <span class='op'>=</span> <span class='va'>e</span>,
-  algorithm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"local"</span>, <span class='st'>"global"</span>, <span class='st'>"semi.global"</span><span class='op'>)</span>,
-  w <span class='op'>=</span> <span class='fl'>1</span>,
-  <span class='va'>...</span>
+  c <span class='op'>=</span> <span class='va'>q</span>
 <span class='op'>)</span>
 
-<span class='fu'>spoaConsensus</span><span class='op'>(</span>
-  <span class='va'>seq</span>,
-  m <span class='op'>=</span> <span class='fl'>5L</span>,
-  n <span class='op'>=</span> <span class='op'>-</span><span class='fl'>4L</span>,
-  g <span class='op'>=</span> <span class='op'>-</span><span class='fl'>8L</span>,
-  e <span class='op'>=</span> <span class='va'>g</span>,
-  q <span class='op'>=</span> <span class='va'>g</span>,
-  c <span class='op'>=</span> <span class='va'>e</span>,
-  algorithm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"local"</span>, <span class='st'>"global"</span>, <span class='st'>"semi.global"</span><span class='op'>)</span>,
-  w <span class='op'>=</span> <span class='fl'>1L</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='fu'>spoaAlign</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for character</span>
+<span class='fu'>spoaAlign</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, qual <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for XStringSet</span>
+<span class='fu'>spoaAlign</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, qual <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for QualityScaledXStringSet</span>
+<span class='fu'>spoaAlign</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for ShortReadQ</span>
+<span class='fu'>spoaAlign</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for derep</span>
+<span class='fu'>spoaAlign</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>spoaConsensus</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for character</span>
+<span class='fu'>spoaConsensus</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, qual <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for XStringSet</span>
+<span class='fu'>spoaConsensus</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, qual <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for ShortRead</span>
+<span class='fu'>spoaConsensus</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, qual <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for QualityScaledXStringSet</span>
+<span class='fu'>spoaConsensus</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for ShortReadQ</span>
+<span class='fu'>spoaConsensus</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, w <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for derep</span>
+<span class='fu'>spoaConsensus</span><span class='op'>(</span><span class='va'>seq</span>, algo <span class='op'>=</span> <span class='fu'>SpoaAlgo</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>seq</th>
-      <td><p>(<code>character</code> vector or <code><a href='https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html'>Biostrings::XStringSet</a></code>) sequences
-to align</p></td>
+      <th>algorithm</th>
+      <td><p>(<code>character</code> string) alignment mode; one of <code>"local"</code>
+(Smith-Watterman), <code>"global"</code> (Needleman-Wunsch), or <code>"semi.global"</code>
+(Overlap). <em>Default</em>: <code>"local"</code></p></td>
     </tr>
     <tr>
       <th>m</th>
@@ -185,30 +209,59 @@ value as <code>g</code></p></td>
 <em>Default</em>: same value as <code>e</code></p></td>
     </tr>
     <tr>
-      <th>algorithm</th>
-      <td><p>(<code>character</code> string) alignment mode; one of <code>"local"</code>
-(Smith-Watterman), <code>"global"</code> (Needleman-Wunsch), or <code>"semi.global"</code>
-(Overlap). <em>Default</em>: <code>"local"</code></p></td>
+      <th>seq</th>
+      <td><p>(<code>character</code> vector, <code><a href='https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html'>Biostrings::XStringSet</a></code>,
+<code><a href='https://rdrr.io/pkg/ShortRead/man/ShortRead-class.html'>ShortRead::ShortRead</a></code>, or <code><a href='https://rdrr.io/pkg/dada2/man/derep-class.html'>dada2::derep</a></code>) sequences to
+align.</p></td>
+    </tr>
+    <tr>
+      <th>algo</th>
+      <td><p>(<code>SpoaAlgo</code> object) parameters for SPOA, generated by
+<code>SpoaAlgo()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional parameters passed to methods</p></td>
     </tr>
     <tr>
       <th>w</th>
       <td><p>(<code>integer</code> vector) weights for the sequences. <em>Default</em>: <code>1L</code></p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>additional parameters passed to methods</p></td>
+      <th>qual</th>
+      <td><p>(<code>list</code> of <code>numeric</code> vectors) per-base quality scores for the
+sequences. <em>Default</em>: none</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>For <code>spoaConsensus()</code>, either a <code>character</code> string or the
+    <p>an object of class "<code>SpoaAlgo</code>", suitable for passing to
+<code>spoaAlign()</code> or <code>spoaConsensus()</code></p>
+<p>For <code>spoaConsensus()</code>, either a <code>character</code> string or the
 appropriate <code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>Biostrings::XString</a></code>, depending on the class of <code>seq</code>.</p>
 <p>For <code>spoaAlign()</code>, either a
 <code>character</code> vector or a <code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>Biostrings::MultipleAlignment</a></code>, depending on
 the class of <code>seq</code>. If <code>seq</code> is a <code>BStringSet</code> (i.e., an <code>XStringSet</code> which
 is not specifically DNA, RNA, or AA) then the result is also a <code>BStringSet</code>,
-since there is no corresponding "<code>BMultipleAlignment</code>" class.</p>
+since there is no corresponding "<code>BMultipleAlignment</code>" class. If <code>seq</code> is a
+<code><a href='https://rdrr.io/pkg/ShortRead/man/ShortRead-class.html'>ShortRead::ShortRead</a></code> object, the output is a
+<code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>Biostrings::DNAMultipleAlignment</a></code>.</p><table class='table'>
+<tr><td><strong>seq</strong></td><td><strong>spoaConsensus</strong></td><td><strong>spoaAlign</strong></td></tr>
+<tr><td><code><a href='https://rdrr.io/r/base/character.html'>character(n)</a></code></td><td><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code></td><td><code><a href='https://rdrr.io/r/base/character.html'>character(n)</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html'>BStringSet</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>BString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html'>BStringSet</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html'>DNAStringSet</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>DNAString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>DNAMultipleAlignment</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html'>RNAStringSet</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>RNAString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>RNAMultipleAlignment</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html'>AAStringSet</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>AAString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>AAMultipleAlignment</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/Biostrings/man/QualityScaledXStringSet-class.html'>QualityScaledBStringSet</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>BString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html'>BStringSet</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/Biostrings/man/QualityScaledXStringSet-class.html'>QualityScaledDNAStringSet</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>DNAString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>DNAMultipleAlignment</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/Biostrings/man/QualityScaledXStringSet-class.html'>QualityScaledRNAStringSet</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>RNAString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>RNAMultipleAlignment</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/Biostrings/man/QualityScaledXStringSet-class.html'>QualityScaledAAStringSet</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>AAString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>AAMultipleAlignment</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/ShortRead/man/ShortReadQ-class.html'>ShortReadQ</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/XString-class.html'>DNAString</a></code></td><td><code><a href='https://rdrr.io/pkg/Biostrings/man/MultipleAlignment-class.html'>DNAMultipleAlignment</a></code></td></tr>
+<tr><td><code><a href='https://rdrr.io/pkg/dada2/man/derep-class.html'>derep</a></code></td><td><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code></td><td><code><a href='https://rdrr.io/r/base/character.html'>character(n)</a></code></td></tr>
+</table>
+
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
@@ -230,6 +283,31 @@ penalty:</p>
 <p>Assigning a weight <em>w</em> to a sequence is equivalent to including that sequence
 <em>w</em> times; this is primarily useful for dereplicated sequences, where all
 sequences are unique, and the weight represents their multiplicity.</p>
+<p>Note that POA is not order-independent, so results may differ when a set of
+non-unique sequences is dereplicated. For the most predictable results, it
+is recommended to sort dereplicated sequences in decreasing order of
+abundance (as in <code><a href='https://rdrr.io/pkg/dada2/man/derepFastq.html'>dada2::derepFastq()</a></code>).</p>
+
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Quality scores</h3>
+
+
+<p>If <code>seq</code> is an object which includes quality scores
+(<code><a href='https://rdrr.io/pkg/Biostrings/man/QualityScaledXStringSet-class.html'>Biostrings::QualityScaledXStringSet</a></code>, <code><a href='https://rdrr.io/pkg/ShortRead/man/ShortReadQ-class.html'>ShortRead::ShortReadQ</a></code>,
+or <code><a href='https://rdrr.io/pkg/dada2/man/derep-class.html'>dada2::derep</a></code>)
+then the alignment consensus is weighted using the quality scores. The method
+used by SPOA uses the integer quality scores as per-position weights
+analogous to sequence weights; i.e., if two different bases align in the same
+position, one in a single sequence with quality score 40 and the other in a
+single sequence with quality score 20, then this is equivalent to the first
+base occurring at that position in 40 sequences without quality scores, and
+the second base occurring at that position in 20 sequences without quality
+scores.</p>
+<p>It is possible to use a combination of sequence weights and quality scores.
+In this case, in order for a dereplicated sequence set to give the same
+results as the non-dereplicated sequences, the quality score for each of the
+dereplicated sequences should be the mean of the quality scores for the
+corresponding non-dereplicated sequences. This is the method used to generate
+quality scores for dereplicated sequences in <code><a href='https://rdrr.io/pkg/dada2/man/derepFastq.html'>dada2::derepFastq()</a></code>.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
