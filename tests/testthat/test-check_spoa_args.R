@@ -41,6 +41,9 @@ test_that("invalid arguments are rejected", {
         "'arg' should be one of \"local\", \"global\", \"semi.global\""
     )
     expect_error(
+        spoa_consensus(sequences, "wrong", 5L, -4L, -8L, -8L, -8L, -8L, rep(1L, 6))
+    )
+    expect_error(
         checkWeights(sequences, w = 1L:3L),
         "Vector w with length 3 is not conformable to vector seq with length 6."
     )
