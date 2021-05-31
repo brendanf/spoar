@@ -28,12 +28,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // spoa_consensus_xstringset
-S4 spoa_consensus_xstringset(S4 seq);
+std::vector<std::string> spoa_consensus_xstringset(SEXP seq);
 RcppExport SEXP _spoar_spoa_consensus_xstringset(SEXP seqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< S4 >::type seq(seqSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type seq(seqSEXP);
     rcpp_result_gen = Rcpp::wrap(spoa_consensus_xstringset(seq));
     return rcpp_result_gen;
 END_RCPP
